@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 echo "🚀 Preparing to push your code..."
 echo "🔍 Step 1: Running ESLint to check for errors and fix minor issues..."
 npx eslint --fix . 
