@@ -1,12 +1,14 @@
 import { useEffect } from "react";
+import styles from "./ATMButton.module.css";
 
 export type ATMButtonProps = {
-  label: string;
+  label?: string;
+  isLeftButton?: boolean;
   onClick: () => void;
   keyBinding?: string;
 };
 
-export const ATMButton = ({ label, onClick, keyBinding }: ATMButtonProps) => {
+export const ATMButton = ({ label, isLeftButton = false, onClick, keyBinding }: ATMButtonProps) => {
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (keyBinding && event.key.toLowerCase() === keyBinding.toLowerCase()) {
@@ -19,8 +21,12 @@ export const ATMButton = ({ label, onClick, keyBinding }: ATMButtonProps) => {
   }, [keyBinding, onClick]);
 
   return (
-    <button className="atm-button" onClick={onClick} data-testid="atm-button">
-      {label}
-    </button>
+    <div className={styles.atmButtonContainer}>
+      {isLeftButton && <div className={styles.pathToScreen}> </div>}
+      <button className={styles.atmButton} onClick={onClick} data-testid="atm-button">
+        {label}
+      </button>
+      {!isLeftButton && <div className={styles.pathToScreen}> </div>}
+    </div>
   );
 };
