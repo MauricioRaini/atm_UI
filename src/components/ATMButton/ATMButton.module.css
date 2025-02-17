@@ -3,21 +3,18 @@
 
 .atmButtonContainer {
   @apply flex flex-row gap-0 items-center justify-center;
-  width: clamp(250px, 50vw, 600px);
-  height: clamp(400px, 80vh, 900px);
 }
 
 .pathToScreen {
   @apply bg-gray-400;
-  width: clamp(0.5rem, 1vw, 1rem);
-  height: clamp(0.1rem, 0.3vw, 0.2rem);
+  width: theme("spacing.6");
+  height: theme("spacing.1");
 }
 
 .atmButton {
   @apply bg-button text-black font-atm text-lg rounded-lg shadow-[0px_4px_2px_rgba(0,0,0,0.5)] 
-  transition-all duration-150 ease-in-out;
-  width: clamp(2rem, 5vw, 5rem);
-  height: clamp(1rem, 2vw, 2.5rem);
+         relative w-[theme(spacing.20)] h-[theme(spacing.10)]
+         transition-all duration-150 ease-in-out;
 }
 
 .atmButton::before {
