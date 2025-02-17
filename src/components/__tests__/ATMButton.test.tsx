@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
-import { ATMButton } from "../ATMButton";
+import { ATMButton } from "@/components/ATMButton";
 
 describe("ATMButton", () => {
   const mockCallback = jest.fn();
