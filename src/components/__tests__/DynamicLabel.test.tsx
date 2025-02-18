@@ -206,4 +206,16 @@ describe("DynamicLabel", () => {
       expect(screen.getByText("Success!")).toBeInTheDocument();
     });
   });
+
+  describe("Given a preselected label", () => {
+    it("When preselected is true, Then it should have the pulsing class", () => {
+      render(<DynamicLabel preselected={true}>Test</DynamicLabel>);
+      expect(screen.getByText("Test")).toHaveClass("animate-pulse");
+    });
+
+    it("When preselected is false, Then it should NOT have the pulsing class", () => {
+      render(<DynamicLabel preselected={false}>Test</DynamicLabel>);
+      expect(screen.getByText("Test")).not.toHaveClass("animate-pulse");
+    });
+  });
 });

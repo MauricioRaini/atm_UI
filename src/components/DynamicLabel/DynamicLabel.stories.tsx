@@ -90,3 +90,10 @@ export const AsyncUpdate: Story = {
     typingSpeed: 80,
   },
 };
+
+export const Preselected: Story = {
+  args: {
+    children: "Option Selected",
+    preselected: true,
+  },
+};

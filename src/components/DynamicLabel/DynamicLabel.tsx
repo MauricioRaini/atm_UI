@@ -5,6 +5,7 @@ export type DynamicLabelProps = {
   children: ReactNode;
   animated?: boolean;
   masked?: boolean;
+  preselected?: boolean;
   typingSpeed?: number;
   onAnimationEnd?: () => void;
 };
@@ -13,6 +14,7 @@ export const DynamicLabel = ({
   children,
   animated = false,
   masked = false,
+  preselected = false,
   typingSpeed = 50,
   onAnimationEnd,
 }: DynamicLabelProps) => {
@@ -54,5 +56,7 @@ export const DynamicLabel = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, charIndex, masked]);
 
-  return <span className="dynamicLabel">{displayedText}</span>;
+  return (
+    <span className={`dynamicLabel ${preselected ? "animate-pulse" : ""}`}>{displayedText}</span>
+  );
 };
