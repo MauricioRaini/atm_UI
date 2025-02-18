@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import styles from "./ATMButton.module.css";
+import "./ATMButton.css";
 
 export type ATMButtonProps = {
   label?: string;
@@ -21,12 +21,12 @@ export const ATMButton = ({ label, isLeftButton = false, onClick, keyBinding }: 
   }, [keyBinding, onClick]);
 
   return (
-    <div className={styles.atmButtonContainer}>
-      {isLeftButton && <div className={styles.pathToScreen}> </div>}
-      <button className={styles.atmButton} onClick={onClick} data-testid="atm-button">
+    <div className="atmButtonContainer">
+      {isLeftButton && <div className="pathToScreen"> </div>}
+      <button className="atmButton" onClick={onClick} data-testid="atm-button">
         {label}
       </button>
-      {!isLeftButton && <div className={styles.pathToScreen}> </div>}
+      {!isLeftButton && <div className="pathToScreen"> </div>}
     </div>
   );
 };

@@ -3,7 +3,7 @@ export default {
   preset: "ts-jest",
   testEnvironment: "jsdom",
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1",
+    "\\.(css|scss|sass)$": "<rootDir>/config/CSSStub.js"
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 };

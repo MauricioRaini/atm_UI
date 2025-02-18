@@ -1,2 +1,1 @@
-import { ATMButton } from "./ATMButton";
-export { ATMButton };
+export { ATMButton } from "./ATMButton";
