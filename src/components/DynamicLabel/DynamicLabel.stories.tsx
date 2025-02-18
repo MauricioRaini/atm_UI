@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState, useEffect } from "react";
 import { DynamicLabel, DynamicLabelProps } from "./DynamicLabel";
+/* TODO: Verify why absolute imports are not detecting the hooks despite the /* config */
+import { useCurrencyFormatter } from "../../../hooks/useCurrencyFormatter";
 
 const meta: Meta<typeof DynamicLabel> = {
   title: "ATM/DynamicLabel",
@@ -96,4 +98,14 @@ export const Preselected: Story = {
     children: "Option Selected",
     preselected: true,
   },
+};
+
+export const MoneyLabel = ({ amount }: { amount: number | string }) => {
+  const formattedAmount = useCurrencyFormatter(amount);
+
+  return <DynamicLabel>{formattedAmount}</DynamicLabel>;
+};
+
+export const MoneyFormat: Story = {
+  render: () => <MoneyLabel amount={12345.67} />,
 };
