@@ -9,6 +9,7 @@ export default {
           screen: "#72A2C0",
           button: "#B4B4B4",
           graffiti: "#3D3D3D",
+          chat: "#FFFFFF"
         },
         fontFamily: {
           atm: ["Courier New", "monospace"],

@@ -1,23 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import "./DynamicLabel.css";
 
 export type DynamicLabelProps = {
-  text: string;
+  children: ReactNode;
   animated?: boolean;
   masked?: boolean;
-  textType?: "h1" | "h2" | "label";
   typingSpeed?: number;
   onAnimationEnd?: () => void;
 };
 
 export const DynamicLabel = ({
-  text,
+  children,
   animated = false,
   masked = false,
-  textType = "label",
   typingSpeed = 50,
   onAnimationEnd,
 }: DynamicLabelProps) => {
+  const text = typeof children === "string" ? children : "";
   const [displayedText, setDisplayedText] = useState(
     masked ? "*".repeat(text.length) : animated ? "" : text,
   );
@@ -55,7 +54,5 @@ export const DynamicLabel = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, charIndex, masked]);
 
-  const ElementTag = textType === "h1" ? "h1" : textType === "h2" ? "h2" : "span";
-
-  return <ElementTag className="dynamicLabel">{displayedText}</ElementTag>;
+  return <span className="dynamicLabel">{displayedText}</span>;
 };
