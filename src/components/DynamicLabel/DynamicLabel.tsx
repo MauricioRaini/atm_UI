@@ -52,6 +52,7 @@ export const DynamicLabel = ({
     } else if (animated) {
       setDisplayedText(text.slice(0, charIndex));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, charIndex, masked]);
 
   const ElementTag = textType === "h1" ? "h1" : textType === "h2" ? "h2" : "span";
