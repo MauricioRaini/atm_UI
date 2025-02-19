@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ATM } from "./ATM";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { DynamicLabel } from "@/components/DynamicLabel";
-import { FONT_SIZES } from "@/components/DynamicLabel/DynamicLabel";
+import { FONT_SIZES } from "@/types";
 
 const meta: Meta<typeof ATM> = {
   title: "ATM/Full Interface",
