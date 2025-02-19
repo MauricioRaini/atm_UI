@@ -3,14 +3,15 @@ import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { DynamicLabel } from "@/components/DynamicLabel";
 import { ATMButtons, FONT_SIZES } from "@/types";
 import { AccessLevel } from "@/types/auth.types";
+import { PINEntryScreen } from "../PINEntryScreen";
 
 export const WelcomeScreen = () => {
-  const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent } =
+  const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
     useBlueScreenStore();
 
   useEffect(() => {
+    setFullScreen(false);
     clearButtonBindings();
-
     setScreenContent(
       <DynamicLabel animated size={FONT_SIZES.lg}>
         Welcome to the ATM
@@ -19,13 +20,14 @@ export const WelcomeScreen = () => {
 
     setButtonBinding(ATMButtons.LowerRight, {
       label: "Enter PIN",
-      action: () => navigateTo("PINEntryScreen", AccessLevel.AUTHENTICATED),
+      action: () => navigateTo(<PINEntryScreen />, AccessLevel.PUBLIC),
     });
 
     setButtonBinding(ATMButtons.LowerLeft, {
       label: "No Card Services",
       action: () => navigateTo("NoCardMenu", AccessLevel.PUBLIC),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigateTo, clearButtonBindings, setButtonBinding, setScreenContent]);
 
   return null;

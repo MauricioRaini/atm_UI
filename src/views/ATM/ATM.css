@@ -51,6 +51,10 @@
   @apply flex h-[4rem] items-end justify-center overflow-hidden px-4 !important;
 }
 
+.main-content-blue-screen-full {
+  @apply flex h-[4rem] items-start justify-center px-4 relative top-[0.2rem] !important;
+}
+
 .atm-buttons-container {
   @apply flex w-full justify-between px-10 mt-4;
 }

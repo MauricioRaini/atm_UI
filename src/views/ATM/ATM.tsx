@@ -9,7 +9,7 @@ import systems from "@/assets/systems.png";
 import "./ATM.css";
 
 export const ATM = () => {
-  const { screenContent, buttonBindings } = useBlueScreenStore();
+  const { screenContent, buttonBindings, fullScreen } = useBlueScreenStore();
 
   const memoizedImages = useMemo(
     () => ({
@@ -60,7 +60,11 @@ export const ATM = () => {
         <div className="machine-container">
           <img src={memoizedImages.brands} alt="ATM Brands" className="card-brands-sprite" />
           <div data-testid="blue-screen" className="blue-screen">
-            <div className="main-content-blue-screen">{screenContent}</div>
+            <div
+              className={`${fullScreen ? "main-content-blue-screen-full" : "main-content-blue-screen"}`}
+            >
+              {screenContent}
+            </div>
           </div>
           <img src={memoizedImages.sticker} alt="Sticker Graffiti" className="sticker-atm" />
           <img src={systems} alt="systems logo" className="systems-logo" />

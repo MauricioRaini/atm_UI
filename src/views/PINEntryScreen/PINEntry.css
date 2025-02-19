@@ -1,0 +1,7 @@
+.pin-entry-screen {
+  @apply flex flex-col items-center justify-center w-full h-full space-y-6;
+}
+
+.pin-main-container {
+  @apply flex flex-col relative top-[5rem] absolute top-[15rem];
+}
