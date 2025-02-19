@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import "./ATMButton.css";
+import { DynamicLabel } from "../DynamicLabel";
 
 export type ATMButtonProps = {
   label?: string;
@@ -31,7 +32,7 @@ export const ATMButton = ({
     <div className="atmButtonContainer">
       {!hidePath && !isLeftButton && <div className="pathToScreen"> </div>}
       <button className="atmButton" onClick={onClick} data-testid="atm-button">
-        {label}
+        <DynamicLabel>{label}</DynamicLabel>
       </button>
       {!hidePath && isLeftButton && <div className="pathToScreen"> </div>}
     </div>

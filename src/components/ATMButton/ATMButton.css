@@ -12,8 +12,8 @@
 }
 
 .atmButton {
-  @apply bg-button text-black font-atm text-lg rounded-sm shadow-[0px_0_1px_rgba(0,0,0,5)] 
-         relative w-[theme(spacing.7)] h-[theme(spacing.4)]
+  @apply flex bg-button text-black font-atm text-lg rounded-sm shadow-[0px_0_1px_rgba(0,0,0,5)] 
+         relative w-[theme(spacing.7)] h-[theme(spacing.4)] items-center justify-center
          transition-all duration-150 ease-in-out;
 }
 
