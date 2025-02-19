@@ -4,6 +4,7 @@ import { AccessLevel, ATMButtons, FONT_SIZES } from "@/types";
 import { useEffect } from "react";
 import { PINEntryScreen } from "../PINEntryScreen";
 import { WelcomeScreen } from "../WelcomeScreen";
+import { WithdrawScreen } from "../WithdrawScreen";
 
 export const MainMenu = () => {
   const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
@@ -20,7 +21,7 @@ export const MainMenu = () => {
 
     setButtonBinding(ATMButtons.MiddleBottomLeft, {
       label: "Withdraw",
-      action: () => navigateTo("Withdraw", AccessLevel.AUTHENTICATED),
+      action: () => navigateTo(<WithdrawScreen />, AccessLevel.AUTHENTICATED),
     });
 
     setButtonBinding(ATMButtons.LowerLeft, {
