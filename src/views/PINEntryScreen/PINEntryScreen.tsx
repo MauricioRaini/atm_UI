@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { ATMButtons } from "@/types";
 import { AccessLevel, PIN_DIGITS } from "@/types/auth.types";
 import { InputField } from "@/components/InputField";
@@ -8,7 +8,7 @@ import { NumericKeyboard } from "@/components/NumericKeyboard/NumericKeyboard";
 import { validatePIN } from "@/services";
 import { MainMenu } from "../MainMenu";
 
-export const PINEntryScreen: React.FC = () => {
+export const PINEntryScreen: React.FC = (): ReactElement => {
   const [pin, setPin] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState(0);

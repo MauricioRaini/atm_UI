@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useBlueScreenStore, useFinancialStore } from "@/store";
 import { MainMenu } from "@/views/MainMenu";
 import { DynamicLabel, InputField, NumericKeyboard } from "@/components";
@@ -16,7 +16,7 @@ import {
 
 import "./WithdrawScreen.css";
 
-export const WithdrawScreen: React.FC = () => {
+export const WithdrawScreen: React.FC = (): ReactElement => {
   const { setButtonBinding, clearButtonBindings, navigateTo, setFullScreen } = useBlueScreenStore();
 
   const {

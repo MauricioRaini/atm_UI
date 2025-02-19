@@ -7,7 +7,7 @@ import { WelcomeScreen } from "../WelcomeScreen";
 import { WithdrawScreen } from "../WithdrawScreen";
 import { BalanceScreen } from "../BalanceScreen";
 
-export const MainMenu = () => {
+export const MainMenu = (): null => {
   const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
     useBlueScreenStore();
 

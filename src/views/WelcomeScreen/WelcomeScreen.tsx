@@ -5,7 +5,7 @@ import { ATMButtons, FONT_SIZES } from "@/types";
 import { AccessLevel } from "@/types/auth.types";
 import { PINEntryScreen } from "../PINEntryScreen";
 
-export const WelcomeScreen = () => {
+export const WelcomeScreen = (): null => {
   const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
     useBlueScreenStore();
 

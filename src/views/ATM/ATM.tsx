@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { ATMButton } from "@/components/ATMButton";
 import atmHeader from "@/assets/atm_sign.png";
@@ -8,7 +8,7 @@ import sticker from "@/assets/sticker_graf.png";
 import systems from "@/assets/systems.png";
 import "./ATM.css";
 
-export const ATM = () => {
+export const ATM = (): ReactElement => {
   const { screenContent, buttonBindings, fullScreen } = useBlueScreenStore();
 
   const memoizedImages = useMemo(
