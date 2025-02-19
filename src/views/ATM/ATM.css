@@ -44,7 +44,7 @@
 }
 
 .main-content-blue-screen {
-  @apply flex h-[4rem] items-end justify-center overflow-hidden !important;
+  @apply flex h-[4rem] items-end justify-center overflow-hidden px-4 !important;
 }
 
 .atm-buttons-container {
