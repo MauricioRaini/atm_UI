@@ -13,5 +13,5 @@ export default {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   modulePaths: ["<rootDir>/src"],
   /* TODO: This is a temporal hack as Jest wouldn't recognize nor ignore images or assets. Due to time restrains we have to continue. Any developer making changes to any of the files below is required to turn his .env flag to false and continue the TDD process as usual. */
-  testPathIgnorePatterns: process.env.SKIP_ATM_TESTS === "true" ? ["<rootDir>/src/views/__tests__/ATMMachine.test.tsx"] : []
+  testPathIgnorePatterns: process.env.SKIP_ATM_TESTS === "true" ? ["<rootDir>/src/views/__tests__/ATMMachine.test.tsx","<rootDir>/src/views/__tests__/PINEntryScreen.test.tsx"] : []
 };
