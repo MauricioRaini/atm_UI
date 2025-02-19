@@ -1,7 +1,19 @@
-let userBalance = 1000;
+let userBalance = 3000;
 let machineBalance = 2000;
 let dailyLimit = 700;
 let dailyUsed = 0;
+
+export async function getBalanceInfo(): Promise<{ balance: number }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ balance: userBalance });
+    }, 1000);
+  });
+}
+
+export function setMockBalance(amount: number) {
+  userBalance = amount;
+}
 
 export async function getWithdrawInfo(): Promise<{
   balance: number;
