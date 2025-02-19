@@ -1,7 +1,8 @@
 import "./App.css";
+import { ATM } from "@/views/ATM";
 
 function App() {
-  return <></>;
+  return <ATM />;
 }
 
 export default App;

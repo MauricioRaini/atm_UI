@@ -58,6 +58,7 @@ export const DynamicLabel = ({
     if (animated) {
       setDisplayedText(text.slice(0, charIndex));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, charIndex, masked]);
 
   return (
