@@ -1,6 +1,6 @@
-let userBalance = 3000;
-let machineBalance = 2000;
-let dailyLimit = 700;
+let userBalance = 5000;
+let machineBalance = 50000;
+let dailyLimit = 2000;
 let dailyUsed = 0;
 
 export async function getBalanceInfo(): Promise<{ balance: number }> {
@@ -58,4 +58,24 @@ export function resetMockData() {
   machineBalance = 2000;
   dailyLimit = 500;
   dailyUsed = 0;
+}
+
+export async function performDeposit(amount: number): Promise<{
+  newBalance: number;
+  newAtmAvailable: number;
+  newDailyUsed: number;
+}> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      userBalance -= amount;
+      machineBalance += amount;
+      dailyUsed += amount;
+
+      resolve({
+        newBalance: userBalance,
+        newAtmAvailable: machineBalance,
+        newDailyUsed: dailyUsed,
+      });
+    }, 300);
+  });
 }

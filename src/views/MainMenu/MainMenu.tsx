@@ -6,6 +6,7 @@ import { PINEntryScreen } from "../PINEntryScreen";
 import { WelcomeScreen } from "../WelcomeScreen";
 import { WithdrawScreen } from "../WithdrawScreen";
 import { BalanceScreen } from "../BalanceScreen";
+import { DepositScreen } from "../DepositScreen";
 
 export const MainMenu = (): null => {
   const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
@@ -27,7 +28,7 @@ export const MainMenu = (): null => {
 
     setButtonBinding(ATMButtons.LowerLeft, {
       label: "Deposit",
-      action: () => navigateTo("Deposit", AccessLevel.AUTHENTICATED),
+      action: () => navigateTo(<DepositScreen />, AccessLevel.AUTHENTICATED),
     });
 
     setButtonBinding(ATMButtons.MiddleTopRight, {

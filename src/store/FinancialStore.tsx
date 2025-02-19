@@ -1,5 +1,11 @@
 import { create } from "zustand";
-import { getBalanceInfo, getWithdrawInfo, performWithdraw, resetMockData } from "@/services";
+import {
+  getBalanceInfo,
+  getWithdrawInfo,
+  performDeposit,
+  performWithdraw,
+  resetMockData,
+} from "@/services";
 import { FINANCIAL_MOVEMENTS } from "@/types";
 
 export type FinancialState = {
@@ -20,6 +26,7 @@ export type FinancialState = {
   fetchBalance: () => Promise<void>;
   fetchWithdrawInfo: () => Promise<void>;
   doWithdraw: (amount: number) => Promise<void>;
+  doDeposit: (amount: number) => Promise<void>;
   resetAllData: () => void;
 };
 
@@ -88,6 +95,29 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
     } catch (err) {
       set({
         error: "Failed to withdraw. Please try again later.",
+        isLoading: false,
+      });
+      throw new Error(err as string);
+    }
+  },
+
+  doDeposit: async (amount: number) => {
+    try {
+      set({ isLoading: true, error: null });
+      const result = await performDeposit(amount);
+      set({
+        balance: result.newBalance,
+        dailyUsed: result.newAtmAvailable,
+        isLoading: false,
+      });
+      get().lastMovements.push({
+        date: new Date(),
+        amount,
+        type: FINANCIAL_MOVEMENTS.deposit,
+      });
+    } catch (err) {
+      set({
+        error: "Failed to deposit. Please try again later.",
         isLoading: false,
       });
       throw new Error(err as string);
