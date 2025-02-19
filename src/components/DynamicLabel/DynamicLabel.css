@@ -2,7 +2,7 @@
 @import "tailwindcss/utilities";
 
 .dynamicLabel {
-  @apply font-atm text-chat text-lg transition-all duration-150 ease-in-out;
+  @apply font-atm text-chat text-lg transition-all duration-150 ease-in-out text-center;
 }
 
 .dynamicLabel h1 {

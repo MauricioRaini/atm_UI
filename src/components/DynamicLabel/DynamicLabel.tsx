@@ -1,5 +1,6 @@
 import { useEffect, useState, ReactNode } from "react";
 import "./DynamicLabel.css";
+import { FONT_SIZES } from "@/types";
 
 export type DynamicLabelProps = {
   children: ReactNode;
@@ -8,6 +9,7 @@ export type DynamicLabelProps = {
   preselected?: boolean;
   typingSpeed?: number;
   onAnimationEnd?: () => void;
+  size?: FONT_SIZES;
 };
 
 export const DynamicLabel = ({
@@ -17,7 +19,9 @@ export const DynamicLabel = ({
   preselected = false,
   typingSpeed = 50,
   onAnimationEnd,
+  size = FONT_SIZES.sm,
 }: DynamicLabelProps) => {
+  console.log(size);
   const text = typeof children === "string" ? children : "";
   const [displayedText, setDisplayedText] = useState(
     masked ? "*".repeat(text.length) : animated ? "" : text,
@@ -50,13 +54,15 @@ export const DynamicLabel = ({
   useEffect(() => {
     if (masked) {
       setDisplayedText("*".repeat(text.length));
-    } else if (animated) {
+    }
+    if (animated) {
       setDisplayedText(text.slice(0, charIndex));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, charIndex, masked]);
 
   return (
-    <span className={`dynamicLabel ${preselected ? "animate-pulse" : ""}`}>{displayedText}</span>
+    <span className={`dynamicLabel ${preselected ? "animate-pulse" : ""} ${size}`}>
+      {displayedText}
+    </span>
   );
 };
