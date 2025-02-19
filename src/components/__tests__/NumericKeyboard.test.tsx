@@ -170,8 +170,8 @@ describe("🔢 Numeric Keyboard Component", () => {
       expect(buttons[7]).toHaveTextContent("8");
       expect(buttons[8]).toHaveTextContent("9");
       expect(buttons[9]).toHaveTextContent("0");
-      expect(buttons[10]).toHaveTextContent("Enter");
-      expect(buttons[11]).toHaveTextContent("Clear");
+      expect(buttons[10]).toHaveTextContent("Clear");
+      expect(buttons[11]).toHaveTextContent("Enter");
     });
   });
 });
