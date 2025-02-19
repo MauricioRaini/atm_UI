@@ -6,6 +6,7 @@ import { WelcomeScreen } from "@/views/WelcomeScreen/WelcomeScreen";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { NumericKeyboard } from "@/components/NumericKeyboard/NumericKeyboard";
 import { validatePIN } from "@/services";
+import { MainMenu } from "../MainMenu";
 
 export const PINEntryScreen: React.FC = () => {
   const [pin, setPin] = useState("");
@@ -52,10 +53,9 @@ export const PINEntryScreen: React.FC = () => {
         setPin("");
         setError(null);
         setAttempts(0);
-
         setAuth(true);
         setFullScreen(false);
-        navigateTo("<MainMenu />", AccessLevel.PUBLIC);
+        navigateTo(<MainMenu />, AccessLevel.AUTHENTICATED);
       } else {
         setError("Incorrect PIN");
         setPin("");
