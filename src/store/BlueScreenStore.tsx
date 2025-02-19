@@ -1,3 +1,5 @@
+import { AccessLevel } from "@/types/auth.types";
+import { WelcomeScreen } from "@/views/WelcomeScreen/WelcomeScreen";
 import { create } from "zustand";
 
 export type ButtonBinding = {
@@ -13,16 +15,16 @@ type BlueScreenState = {
   setButtonBinding: (index: number, binding: ButtonBinding) => void;
   clearButtonBindings: () => void;
   setAuth: (isAuth: boolean) => void;
-  navigateTo: (content: React.ReactNode, requiresAuth?: boolean) => void;
+  navigateTo: (content: React.ReactNode, requiresAuth?: AccessLevel) => void;
 };
 
 export const useBlueScreenStore = create<BlueScreenState>((set, get) => ({
-  screenContent: <h1>Welcome</h1>,
+  screenContent: <WelcomeScreen />,
   buttonBindings: {},
   isAuthenticated: false,
   setScreenContent: (content) => set({ screenContent: content }),
   setAuth: (isAuth) => set({ isAuthenticated: isAuth }),
-  navigateTo: (content, requiresAuth = false) => {
+  navigateTo: (content, requiresAuth = AccessLevel.PUBLIC) => {
     if (requiresAuth && !get().isAuthenticated) {
       return;
     }

@@ -1,5 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { useBlueScreenStore } from "../BlueScreenStore";
+import { AccessLevel } from "@/types/auth.types";
 
 describe("🛠️ BlueScreen Store", () => {
   beforeEach(() => {
@@ -58,7 +59,7 @@ describe("🛠️ BlueScreen Store", () => {
       const { result } = renderHook(() => useBlueScreenStore());
 
       act(() => {
-        result.current.navigateTo(<h1>Protected</h1>, true);
+        result.current.navigateTo(<h1>Protected</h1>, AccessLevel.AUTHENTICATED);
       });
 
       expect(result.current.screenContent).not.toEqual(<h1>Protected</h1>);
@@ -70,7 +71,7 @@ describe("🛠️ BlueScreen Store", () => {
 
       act(() => {
         result.current.setAuth(true);
-        result.current.navigateTo(<h1>Protected</h1>, true);
+        result.current.navigateTo(<h1>Protected</h1>, AccessLevel.AUTHENTICATED);
       });
 
       expect(result.current.screenContent).toEqual(<h1>Protected</h1>);
@@ -80,7 +81,7 @@ describe("🛠️ BlueScreen Store", () => {
       const { result } = renderHook(() => useBlueScreenStore());
 
       act(() => {
-        result.current.navigateTo(<h1>Public Screen</h1>, false);
+        result.current.navigateTo(<h1>Public Screen</h1>, AccessLevel.PUBLIC);
       });
 
       expect(result.current.screenContent).toEqual(<h1>Public Screen</h1>);
