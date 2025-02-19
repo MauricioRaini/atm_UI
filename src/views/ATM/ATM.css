@@ -1,0 +1,116 @@
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.atm-street-container {
+  @apply flex flex-col items-center justify-end w-full h-[100vh] bg-street;
+}
+
+.atm-container {
+  @apply flex flex-col gap-0 items-center justify-end h-[95%] w-[19rem];
+}
+
+.atm-header {
+  @apply flex justify-center items-center w-full max-w-[100%] max-h-[6.5rem] bg-atmHeader p-[1rem] rounded-lg;
+}
+
+.atm-image-header {
+  @apply w-[80%] h-auto object-contain;
+}
+
+.graffiti-header {
+  @apply absolute w-[9.5rem] h-auto object-contain top-[5rem] -translate-x-[-40.5%];
+}
+
+.machine-container {
+  @apply flex flex-col items-center justify-start h-[80%] w-[17rem] bg-machine pt-[0.1rem];
+}
+
+.card-brands-sprite {
+  @apply w-[67%] object-cover relative bottom-[0.7rem];
+  clip-path: inset(50% 0 0 0);
+}
+
+.sticker-atm {
+  @apply absolute w-[7.5rem] h-auto object-contain top-[22rem] -translate-x-[55%] !important;
+}
+
+.top-shadow-machine {
+  @apply bg-shadowMachine w-[17rem] h-[0.4rem];
+}
+
+.blue-screen {
+  @apply w-[68%] h-[80%] bg-screen h-[30%] text-white font-atm flex items-start overflow-hidden relative justify-center;
+  @apply border-[0.15rem] border-gray-300 shadow-[inset_0_0_4px_rgba(0,0,0,0.2)];
+}
+
+.main-content-blue-screen {
+  @apply flex h-[4rem] items-end justify-center overflow-hidden px-4 !important;
+}
+
+.atm-buttons-container {
+  @apply flex w-full justify-between px-10 mt-4;
+}
+
+.atm-buttons {
+  @apply flex flex-col space-y-2;
+}
+
+.atm-buttons.left {
+  @apply items-start justify-start relative bottom-[7rem] right-[2rem];
+}
+
+.atm-buttons.right {
+  @apply items-start justify-start relative bottom-[7rem] left-[2rem];
+}
+
+.atm-button {
+  @apply w-14 h-10 bg-gray-300 text-black font-bold rounded-lg shadow-md transition-all;
+}
+
+.atm-button:hover {
+  @apply bg-gray-400 scale-105;
+}
+
+.button-labels {
+  @apply absolute w-full h-full;
+}
+
+.button-wrapper {
+  @apply flex items-center relative;
+}
+
+.button-labels {
+  @apply absolute w-full h-full;
+}
+
+.button-label {
+  @apply text-white text-xs font-atm absolute whitespace-nowrap;
+}
+
+/* Left Side Labels */
+.label-0 {
+  @apply top-0 left-[2.4rem];
+}
+.label-1 {
+  @apply top-[0%] left-[2.4rem];
+}
+.label-2 {
+  @apply top-[0%] left-[2.4rem];
+}
+.label-3 {
+  @apply bottom-0 left-[2.4rem];
+}
+
+/* Right Side Labels */
+.label-4 {
+  @apply top-0 right-[2.4rem];
+}
+.label-5 {
+  @apply top-[0%] right-[2.4rem];
+}
+.label-6 {
+  @apply top-[0%] right-[2.4rem] text-red-500;
+}
+.label-7 {
+  @apply bottom-0 right-[2.4rem];
+}
