@@ -22,11 +22,11 @@ export const ATMButton = ({ label, isLeftButton = false, onClick, keyBinding }: 
 
   return (
     <div className="atmButtonContainer">
-      {isLeftButton && <div className="pathToScreen"> </div>}
+      {!isLeftButton && <div className="pathToScreen"> </div>}
       <button className="atmButton" onClick={onClick} data-testid="atm-button">
         {label}
       </button>
-      {!isLeftButton && <div className="pathToScreen"> </div>}
+      {isLeftButton && <div className="pathToScreen"> </div>}
     </div>
   );
 };
