@@ -21,7 +21,6 @@ export const DynamicLabel = ({
   onAnimationEnd,
   size = FONT_SIZES.sm,
 }: DynamicLabelProps) => {
-  console.log(size);
   const text = typeof children === "string" ? children : "";
   const [displayedText, setDisplayedText] = useState(
     masked ? "*".repeat(text.length) : animated ? "" : text,
