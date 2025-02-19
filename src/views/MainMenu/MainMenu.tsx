@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { PINEntryScreen } from "../PINEntryScreen";
 import { WelcomeScreen } from "../WelcomeScreen";
 import { WithdrawScreen } from "../WithdrawScreen";
+import { BalanceScreen } from "../BalanceScreen";
 
 export const MainMenu = () => {
   const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
@@ -36,7 +37,7 @@ export const MainMenu = () => {
 
     setButtonBinding(ATMButtons.MiddleBottomRight, {
       label: "Balance",
-      action: () => navigateTo("Balance", AccessLevel.AUTHENTICATED),
+      action: () => navigateTo(<BalanceScreen />, AccessLevel.AUTHENTICATED),
     });
     setButtonBinding(ATMButtons.LowerRight, {
       label: "Re-Enter PIN",
