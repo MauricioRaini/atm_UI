@@ -31,7 +31,11 @@
 }
 
 .sticker-atm {
-  @apply absolute w-[7.5rem] h-auto object-contain top-[22rem] -translate-x-[55%] !important;
+  @apply absolute w-[7.5rem] h-auto object-contain top-[23rem] -translate-x-[55%] z-[999] !important;
+}
+
+.systems-logo {
+  @apply absolute w-[2.5rem] h-auto object-contain top-[24rem] -translate-x-[-175%] z-[999] !important;
 }
 
 .top-shadow-machine {

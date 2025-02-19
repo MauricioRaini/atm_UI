@@ -5,6 +5,7 @@ import atmHeader from "@/assets/atm_sign.png";
 import brands from "@/assets/creditcard_sprite.png";
 import graffitiHeader from "@/assets/graffiti.png";
 import sticker from "@/assets/sticker_graf.png";
+import systems from "@/assets/systems.png";
 import "./ATM.css";
 
 export const ATM = () => {
@@ -62,6 +63,7 @@ export const ATM = () => {
             <div className="main-content-blue-screen">{screenContent}</div>
           </div>
           <img src={memoizedImages.sticker} alt="Sticker Graffiti" className="sticker-atm" />
+          <img src={systems} alt="systems logo" className="systems-logo" />
           <div className="atm-buttons-container">{memoizedButtons}</div>
         </div>
       </div>
