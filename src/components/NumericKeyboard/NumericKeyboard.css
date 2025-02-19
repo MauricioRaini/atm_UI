@@ -1,12 +1,16 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.keyboard-container {
+  @apply rounded-md bg-street transition-all duration-150 ease-in-out p-[0.3rem];
+}
+
 .numeric-keyboard {
-  @apply flex flex-col items-center justify-center w-full h-auto space-y-2;
+  @apply flex flex-col items-center justify-center w-full h-auto space-y-4;
 }
 
 .number-grid {
-  @apply grid grid-cols-3 gap-2;
+  @apply grid grid-cols-3 gap-1;
 }
 
 .bottom-buttons {
