@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { ATM } from "../ATM";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
+import { ATMButtons } from "@/types";
 
 /* TODO: Verify profoundly this test suite when Jest bug with assets get solved as it is now outdated to the functionality. */
 describe("ATM Machine Component", () => {
@@ -37,8 +38,8 @@ describe("ATM Machine Component", () => {
 
   describe("Given functions are dynamically bound", () => {
     it("When a function is bound to a button, Then clicking it should trigger only that function", () => {
-      store.setButtonBinding(0, { label: "Withdraw", action: mockWithdraw });
-      store.setButtonBinding(1, { label: "Deposit", action: mockDeposit });
+      store.setButtonBinding(ATMButtons.UpperLeft, { label: "Withdraw", action: mockWithdraw });
+      store.setButtonBinding(ATMButtons.MiddleTopLeft, { label: "Deposit", action: mockDeposit });
 
       render(<ATM />);
 
@@ -51,7 +52,7 @@ describe("ATM Machine Component", () => {
     });
 
     it("When clicking an unbound button, Then no function should trigger", () => {
-      store.setButtonBinding(0, { label: "Withdraw", action: mockWithdraw });
+      store.setButtonBinding(ATMButtons.UpperLeft, { label: "Withdraw", action: mockWithdraw });
 
       render(<ATM />);
 
@@ -64,13 +65,13 @@ describe("ATM Machine Component", () => {
     });
 
     it("When a new function is bound to an already bound button, Then the previous function should be removed", () => {
-      store.setButtonBinding(0, { label: "Withdraw", action: mockWithdraw });
+      store.setButtonBinding(ATMButtons.UpperLeft, { label: "Withdraw", action: mockWithdraw });
 
       render(<ATM />);
       fireEvent.click(screen.getByText("Withdraw"));
       expect(mockWithdraw).toHaveBeenCalledTimes(1);
 
-      store.setButtonBinding(0, { label: "Balance", action: mockBalance });
+      store.setButtonBinding(ATMButtons.UpperLeft, { label: "Balance", action: mockBalance });
 
       fireEvent.click(screen.getByText("Balance"));
       expect(mockBalance).toHaveBeenCalledTimes(1);
@@ -78,18 +79,18 @@ describe("ATM Machine Component", () => {
     });
 
     it("When a function is removed, Then its label and action should disappear", () => {
-      store.setButtonBinding(0, { label: "Withdraw", action: mockWithdraw });
+      store.setButtonBinding(ATMButtons.UpperLeft, { label: "Withdraw", action: mockWithdraw });
 
       render(<ATM />);
       expect(screen.getByText("Withdraw")).toBeInTheDocument();
 
-      store.setButtonBinding(0, {});
+      store.setButtonBinding(ATMButtons.UpperLeft, {});
 
       expect(screen.queryByText("Withdraw")).not.toBeInTheDocument();
     });
 
     it("When the screen changes, Then all previous bindings should reset", () => {
-      store.setButtonBinding(0, { label: "Withdraw", action: mockWithdraw });
+      store.setButtonBinding(ATMButtons.UpperLeft, { label: "Withdraw", action: mockWithdraw });
 
       render(<ATM />);
       fireEvent.click(screen.getByText("Withdraw"));

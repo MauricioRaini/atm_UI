@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { DynamicLabel } from "@/components/DynamicLabel";
-import { FONT_SIZES } from "@/types";
+import { ATMButtons, FONT_SIZES } from "@/types";
 import { AccessLevel } from "@/types/auth.types";
 
 export const WelcomeScreen = () => {
@@ -17,12 +17,12 @@ export const WelcomeScreen = () => {
       </DynamicLabel>,
     );
 
-    setButtonBinding(3, {
+    setButtonBinding(ATMButtons.LowerRight, {
       label: "Enter PIN",
       action: () => navigateTo("PINEntryScreen", AccessLevel.AUTHENTICATED),
     });
 
-    setButtonBinding(7, {
+    setButtonBinding(ATMButtons.LowerLeft, {
       label: "No Card Services",
       action: () => navigateTo("NoCardMenu", AccessLevel.PUBLIC),
     });

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { ATM } from "./ATM";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { DynamicLabel } from "@/components/DynamicLabel";
-import { FONT_SIZES } from "@/types";
+import { ATMButtons, FONT_SIZES } from "@/types";
 
 const meta: Meta<typeof ATM> = {
   title: "ATM/Full Interface",
@@ -28,23 +28,23 @@ const ATMWrapper = () => {
       </DynamicLabel>,
     );
 
-    setButtonBinding(2, {
+    setButtonBinding(ATMButtons.MiddleBottomLeft, {
       label: "Withdraw",
       action: () => setScreenContent(<DynamicLabel>Withdraw</DynamicLabel>),
     });
-    setButtonBinding(3, {
+    setButtonBinding(ATMButtons.LowerLeft, {
       label: "Deposit",
       action: () => setScreenContent(<DynamicLabel>Deposit</DynamicLabel>),
     });
-    setButtonBinding(5, {
+    setButtonBinding(ATMButtons.MiddleTopRight, {
       label: "Balance",
       action: () => setScreenContent(<DynamicLabel>Balance</DynamicLabel>),
     });
-    setButtonBinding(6, {
+    setButtonBinding(ATMButtons.MiddleBottomRight, {
       label: "Re-Enter PIN",
       action: () => setScreenContent(<DynamicLabel>Re-Enter PIN</DynamicLabel>),
     });
-    setButtonBinding(7, {
+    setButtonBinding(ATMButtons.LowerRight, {
       label: "Exit",
       action: () => setScreenContent(<DynamicLabel>Session Ended</DynamicLabel>),
     });

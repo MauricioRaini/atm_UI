@@ -1,3 +1,4 @@
+import { ATMButtons } from "@/types";
 import { AccessLevel } from "@/types/auth.types";
 import { WelcomeScreen } from "@/views/WelcomeScreen/WelcomeScreen";
 import { create } from "zustand";
@@ -12,7 +13,7 @@ type BlueScreenState = {
   buttonBindings: { [key: number]: ButtonBinding };
   isAuthenticated: boolean;
   setScreenContent: (content: React.ReactNode) => void;
-  setButtonBinding: (index: number, binding: ButtonBinding) => void;
+  setButtonBinding: (index: ATMButtons, binding: ButtonBinding) => void;
   clearButtonBindings: () => void;
   setAuth: (isAuth: boolean) => void;
   navigateTo: (content: React.ReactNode, requiresAuth?: AccessLevel) => void;
