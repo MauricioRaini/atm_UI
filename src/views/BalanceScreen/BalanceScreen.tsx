@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { AccessLevel, FONT_SIZES, ATMButtons } from "@/types";
 import { useBlueScreenStore, useFinancialStore } from "@/store";
 import { DynamicLabel } from "@/components/DynamicLabel";
@@ -6,7 +6,7 @@ import { MainMenu } from "@/views/MainMenu";
 import { useCurrencyFormatter } from "@/hooks/useCurrencyFormatter";
 import "./BalanceScreen.css";
 
-export const BalanceScreen: React.FC = () => {
+export const BalanceScreen: React.FC = (): ReactElement => {
   const { setButtonBinding, clearButtonBindings, navigateTo } = useBlueScreenStore();
 
   const { balance, isLoading, error, fetchBalance } = useFinancialStore();
