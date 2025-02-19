@@ -7,6 +7,7 @@ export type InputFieldProps = {
   onEnter?: () => void;
   maxLength?: number;
   error?: boolean;
+  masked?: boolean;
 };
 
 export const InputField = ({
@@ -15,11 +16,17 @@ export const InputField = ({
   onEnter,
   maxLength = 10,
   error = false,
+  masked = false,
 }: InputFieldProps) => {
   const [inputValue, setInputValue] = useState(value);
 
   useEffect(() => {
+    if (masked) {
+      setInputValue("*".repeat(value.length));
+      return;
+    }
     setInputValue(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

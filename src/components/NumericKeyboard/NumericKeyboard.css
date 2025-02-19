@@ -2,7 +2,7 @@
 @import "tailwindcss/utilities";
 
 .keyboard-container {
-  @apply rounded-md bg-street transition-all duration-150 ease-in-out p-[0.3rem];
+  @apply flex self-center justify-center rounded-md bg-street w-fit transition-all duration-150 ease-in-out p-[0.3rem] relative left-[1.8rem];
 }
 
 .numeric-keyboard {
