@@ -1,2 +1,1 @@
-import { useCurrencyFormatter } from "./useCurrencyFormatter";
-export { useCurrencyFormatter };
+export { useCurrencyFormatter } from "./useCurrencyFormatter";

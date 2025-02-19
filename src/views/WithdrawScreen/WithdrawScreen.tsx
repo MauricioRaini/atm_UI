@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { AccessLevel, PIN_DIGITS } from "@/types/auth.types";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
-import { ATMButtons, FONT_SIZES } from "@/types";
-import { InputField } from "@/components/InputField";
-import { NumericKeyboard } from "@/components/NumericKeyboard/NumericKeyboard";
-import { DynamicLabel } from "@/components/DynamicLabel";
+import { DynamicLabel, InputField, NumericKeyboard } from "@/components";
 import { MainMenu } from "@/views/MainMenu";
 import { getWithdrawInfo, performWithdraw } from "@/services";
-import { useCurrencyFormatter } from "@/hooks/useCurrencyFormatter";
+import { useCurrencyFormatter } from "@/hooks";
+import {
+  ATMButtons,
+  FONT_SIZES,
+  COMMON_AMOUNTS,
+  CONFIRMATION_MODAL_TIME,
+  MAX_WITHDRAW,
+  MEDIUM_TYPING_SPEED,
+} from "@/types";
 import "./WithdrawScreen.css";
-
-const COMMON_AMOUNTS = [20, 40, 60, 100, 200];
-const MAX_WITHDRAW = 1000000; // unchanged from your code
-const MEDIUM_TYPING_SPEED = 200;
 
 export const WithdrawScreen: React.FC = () => {
   const { setButtonBinding, clearButtonBindings, navigateTo, setFullScreen } = useBlueScreenStore();
 
-  // ===============================
-  // Existing States (unchanged)
-  // ===============================
   const [balance, setBalance] = useState(0);
   const [atmAvailable, setAtmAvailable] = useState(0);
   const [dailyLimit, setDailyLimit] = useState(0);
@@ -34,28 +32,15 @@ export const WithdrawScreen: React.FC = () => {
 
   const remainingLimit = dailyLimit - dailyUsed;
   const customAmountValue = parseInt(customAmount, 10) || 0;
-
-  // ===============================
-  // New State for #2: success screen
-  // ===============================
   const [withdrawalSuccessAmount, setWithdrawalSuccessAmount] = useState<number | null>(null);
 
-  // ===============================
-  // Formatting (existing)
-  // ===============================
   const formattedBalance = useCurrencyFormatter(balance);
   const formattedPending = useCurrencyFormatter(pendingAmount ?? 0);
   const formattedLimitLeft = useCurrencyFormatter(limitLeft);
   const formattedSuccesAmount = useCurrencyFormatter(withdrawalSuccessAmount || 0);
 
-  // ===============================
-  // #1. Format the typed input as currency
-  // (We store digits in `customAmount` but display currency in <InputField>)
-  // ===============================
-  // We'll keep the raw digits in `customAmount`. So let’s build a currency string:
   const formattedCustom = useCurrencyFormatter(customAmountValue);
 
-  // #3. Whether typed amount is invalid
   const isCustomAmountInvalid = () => {
     if (customAmountValue <= 0) return false;
     if (customAmountValue > balance) return true;
@@ -65,9 +50,6 @@ export const WithdrawScreen: React.FC = () => {
     return false;
   };
 
-  // ===============================
-  // useEffects (unchanged logic)
-  // ===============================
   useEffect(() => {
     setLimitLeft(dailyLimit - dailyUsed);
   }, [dailyLimit, dailyUsed]);
@@ -98,24 +80,16 @@ export const WithdrawScreen: React.FC = () => {
     setFullScreen(true);
   }, [setFullScreen]);
 
-  // ===============================
-  // #2. If `withdrawalSuccessAmount` is set, show a success screen for 3s
-  // ===============================
   useEffect(() => {
     if (withdrawalSuccessAmount !== null) {
       const timer = setTimeout(() => {
-        // After 3s, proceed to MainMenu
         navigateTo(<MainMenu />, AccessLevel.AUTHENTICATED);
-      }, 5000);
+      }, CONFIRMATION_MODAL_TIME);
 
       return () => clearTimeout(timer);
     }
   }, [withdrawalSuccessAmount, navigateTo]);
 
-  // ===============================
-  // Handler: Confirm => perform withdrawal
-  // modified to show the new success screen
-  // ===============================
   const handleConfirm = async () => {
     if (pendingAmount == null) return;
 
@@ -124,9 +98,6 @@ export const WithdrawScreen: React.FC = () => {
       setBalance(result.newBalance);
       setAtmAvailable(result.newAtmAvailable);
       setDailyUsed(result.newDailyUsed);
-
-      // #2. Instead of navigating immediately,
-      // show a success message for 3 seconds
       setWithdrawalSuccessAmount(pendingAmount);
     } catch (err) {
       setError("Failed to withdraw. Please try again later.");
@@ -139,9 +110,6 @@ export const WithdrawScreen: React.FC = () => {
     setIsOther(false);
   };
 
-  // ===============================
-  // Handlers (unchanged)
-  // ===============================
   const handleCancelConfirm = () => {
     setShowConfirm(false);
     setPendingAmount(null);
@@ -203,10 +171,6 @@ export const WithdrawScreen: React.FC = () => {
     );
   }
 
-  // ===============================
-  // #2. Show success screen if user just withdrew money
-  // (3s timer is in the useEffect above)
-  // ===============================
   if (withdrawalSuccessAmount !== null) {
     const formattedWithdrawn = formattedSuccesAmount;
     return (
@@ -218,10 +182,6 @@ export const WithdrawScreen: React.FC = () => {
     );
   }
 
-  // ===============================
-  // Normal screen flow
-  // #3. Turn “Max withdrawal available” text red if invalid
-  // ===============================
   const invalidClass = isCustomAmountInvalid() ? "text-red-400 animate-pulse" : "";
 
   return (
@@ -235,7 +195,6 @@ export const WithdrawScreen: React.FC = () => {
         </div>
       )}
 
-      {/* #3. If invalid, text is red + animate */}
       <div
         className={`font-atm text-chat text-xs transition-all duration-150 ease-in-out text-center ${invalidClass}`}
       >
@@ -273,15 +232,9 @@ export const WithdrawScreen: React.FC = () => {
 
       {isOther && (
         <div className="flex flex-col items-center space-y-2 relative bottom-[1rem]">
-          {/* 
-            #1. Show typed value as currency in the InputField. 
-            We'll store digits in "customAmount", 
-            but display "formattedCustom".
-           */}
           <InputField
             value={formattedCustom}
             onChange={(rawString) => {
-              // We remove non-digit from rawString, so we can keep a numeric customAmount
               const onlyDigits = rawString.replace(/\D/g, "");
               setCustomAmount(onlyDigits);
             }}
@@ -290,7 +243,6 @@ export const WithdrawScreen: React.FC = () => {
             error={isCustomAmountInvalid()}
             data-testid="input-field"
           />
-
           <div className="flex w-full">
             <NumericKeyboard
               onNumberPress={handleNumberPress}
