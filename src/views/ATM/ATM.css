@@ -52,7 +52,7 @@
 }
 
 .main-content-blue-screen-full {
-  @apply flex h-[4rem] items-start justify-center px-4 relative top-[0.2rem] !important;
+  @apply flex h-full items-start justify-center px-4 relative top-[0.2rem] !important;
 }
 
 .atm-buttons-container {

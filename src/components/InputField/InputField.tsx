@@ -52,6 +52,7 @@ export const InputField = ({
       onKeyDown={handleKeyDown}
       maxLength={maxLength}
       data-testid="input-field"
+      style={{ height: "1rem" }}
     />
   );
 };
