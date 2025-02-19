@@ -1,0 +1,22 @@
+/* src/views/DepositScreen/DepositScreen.css */
+
+.deposit-screen {
+  @apply w-full h-full bg-blue-900;
+}
+
+.common-amount-button {
+  @apply text-xs font-semibold rounded hover:bg-blue-700 transition
+      justify-center items-center h-[2rem] w-[2rem];
+}
+
+.confirm-overlay {
+  @apply z-50;
+}
+
+.confirm-box {
+  @apply rounded shadow-lg;
+}
+
+.cancel-button {
+  @apply hover:bg-red-700;
+}
