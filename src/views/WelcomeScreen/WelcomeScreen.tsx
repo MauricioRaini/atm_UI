@@ -22,11 +22,6 @@ export const WelcomeScreen = () => {
       label: "Enter PIN",
       action: () => navigateTo(<PINEntryScreen />, AccessLevel.PUBLIC),
     });
-
-    setButtonBinding(ATMButtons.LowerLeft, {
-      label: "No Card Services",
-      action: () => navigateTo("NoCardMenu", AccessLevel.PUBLIC),
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigateTo, clearButtonBindings, setButtonBinding, setScreenContent]);
 
