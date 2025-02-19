@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useBlueScreenStore } from "@/store/BlueScreenStore";
+import React, { useEffect } from "react";
 import { AccessLevel, FONT_SIZES, ATMButtons } from "@/types";
+import { useBlueScreenStore, useFinancialStore } from "@/store";
 import { DynamicLabel } from "@/components/DynamicLabel";
 import { MainMenu } from "@/views/MainMenu";
 import { useCurrencyFormatter } from "@/hooks/useCurrencyFormatter";
 import "./BalanceScreen.css";
-import { getBalanceInfo } from "@/services";
 
 export const BalanceScreen: React.FC = () => {
   const { setButtonBinding, clearButtonBindings, navigateTo } = useBlueScreenStore();
 
-  const [balance, setBalance] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { balance, isLoading, error, fetchBalance } = useFinancialStore();
 
   const formattedBalance = useCurrencyFormatter(balance);
 
@@ -23,19 +20,11 @@ export const BalanceScreen: React.FC = () => {
       action: () => navigateTo(<MainMenu />, AccessLevel.AUTHENTICATED),
     });
 
-    getBalanceInfo()
-      .then((res) => {
-        setBalance(res.balance);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Unable to load your balance");
-        setLoading(false);
-      });
+    fetchBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="balance-screen flex-center">
         <DynamicLabel animated size={FONT_SIZES.md}>

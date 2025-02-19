@@ -1,8 +1,7 @@
-// WithdrawScreen.test.tsx
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
-import { getWithdrawInfo, performWithdraw } from "@/services/withdrawServices";
+import { getWithdrawInfo, performWithdraw } from "@/services";
 import { WithdrawScreen } from "@/views/WithdrawScreen";
 
 const COMMON_AMOUNTS = [20, 40, 60, 100, 200];

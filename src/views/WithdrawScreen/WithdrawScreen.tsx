@@ -1,34 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { AccessLevel, PIN_DIGITS } from "@/types/auth.types";
-import { useBlueScreenStore } from "@/store/BlueScreenStore";
-import { DynamicLabel, InputField, NumericKeyboard } from "@/components";
+import { useBlueScreenStore, useFinancialStore } from "@/store";
 import { MainMenu } from "@/views/MainMenu";
-import { getWithdrawInfo, performWithdraw } from "@/services";
+import { DynamicLabel, InputField, NumericKeyboard } from "@/components";
 import { useCurrencyFormatter } from "@/hooks";
 import {
+  AccessLevel,
   ATMButtons,
   FONT_SIZES,
   COMMON_AMOUNTS,
   CONFIRMATION_MODAL_TIME,
   MAX_WITHDRAW,
   MEDIUM_TYPING_SPEED,
+  PIN_DIGITS,
 } from "@/types";
+
 import "./WithdrawScreen.css";
 
 export const WithdrawScreen: React.FC = () => {
   const { setButtonBinding, clearButtonBindings, navigateTo, setFullScreen } = useBlueScreenStore();
 
-  const [balance, setBalance] = useState(0);
-  const [atmAvailable, setAtmAvailable] = useState(0);
-  const [dailyLimit, setDailyLimit] = useState(0);
-  const [dailyUsed, setDailyUsed] = useState(0);
-  const [limitLeft, setLimitLeft] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const {
+    balance,
+    atmAvailable,
+    dailyLimit,
+    dailyUsed,
+    isLoading,
+    error,
+    fetchWithdrawInfo,
+    doWithdraw,
+  } = useFinancialStore();
+
   const [isOther, setIsOther] = useState(false);
   const [customAmount, setCustomAmount] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingAmount, setPendingAmount] = useState<number | null>(null);
+  const [limitLeft, setLimitLeft] = useState(dailyLimit);
 
   const remainingLimit = dailyLimit - dailyUsed;
   const customAmountValue = parseInt(customAmount, 10) || 0;
@@ -37,22 +43,8 @@ export const WithdrawScreen: React.FC = () => {
   const formattedBalance = useCurrencyFormatter(balance);
   const formattedPending = useCurrencyFormatter(pendingAmount ?? 0);
   const formattedLimitLeft = useCurrencyFormatter(limitLeft);
-  const formattedSuccesAmount = useCurrencyFormatter(withdrawalSuccessAmount || 0);
-
+  const formattedSuccessAmount = useCurrencyFormatter(withdrawalSuccessAmount ?? 0);
   const formattedCustom = useCurrencyFormatter(customAmountValue);
-
-  const isCustomAmountInvalid = () => {
-    if (customAmountValue <= 0) return false;
-    if (customAmountValue > balance) return true;
-    if (customAmountValue > remainingLimit) return true;
-    if (customAmountValue > atmAvailable) return true;
-    if (customAmountValue > MAX_WITHDRAW) return true;
-    return false;
-  };
-
-  useEffect(() => {
-    setLimitLeft(dailyLimit - dailyUsed);
-  }, [dailyLimit, dailyUsed]);
 
   useEffect(() => {
     clearButtonBindings();
@@ -60,25 +52,17 @@ export const WithdrawScreen: React.FC = () => {
       label: "Cancel",
       action: () => navigateTo(<MainMenu />, AccessLevel.AUTHENTICATED),
     });
-
-    getWithdrawInfo()
-      .then((info) => {
-        setBalance(info.balance);
-        setAtmAvailable(info.atmAvailable);
-        setDailyLimit(info.dailyLimit);
-        setDailyUsed(info.dailyUsed);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Unable to load withdraw info");
-        setLoading(false);
-      });
+    fetchWithdrawInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     setFullScreen(true);
   }, [setFullScreen]);
+
+  useEffect(() => {
+    setLimitLeft(remainingLimit);
+  }, [remainingLimit]);
 
   useEffect(() => {
     if (withdrawalSuccessAmount !== null) {
@@ -90,20 +74,23 @@ export const WithdrawScreen: React.FC = () => {
     }
   }, [withdrawalSuccessAmount, navigateTo]);
 
+  const isCustomAmountInvalid = () => {
+    if (customAmountValue <= 0) return false;
+    if (customAmountValue > balance) return true;
+    if (customAmountValue > limitLeft) return true;
+    if (customAmountValue > atmAvailable) return true;
+    if (customAmountValue > MAX_WITHDRAW) return true;
+    return false;
+  };
+
   const handleConfirm = async () => {
     if (pendingAmount == null) return;
-
     try {
-      const result = await performWithdraw(pendingAmount);
-      setBalance(result.newBalance);
-      setAtmAvailable(result.newAtmAvailable);
-      setDailyUsed(result.newDailyUsed);
+      await doWithdraw(pendingAmount);
       setWithdrawalSuccessAmount(pendingAmount);
-    } catch (err) {
-      setError("Failed to withdraw. Please try again later.");
-      throw err;
+    } catch (error) {
+      throw new Error(error as string);
     }
-
     setShowConfirm(false);
     setPendingAmount(null);
     setCustomAmount("");
@@ -130,10 +117,9 @@ export const WithdrawScreen: React.FC = () => {
 
   const handleEnterPress = () => {
     if (customAmountValue <= 0 || customAmountValue > MAX_WITHDRAW) return;
-
     if (
       customAmountValue > balance ||
-      customAmountValue > remainingLimit ||
+      customAmountValue > limitLeft ||
       customAmountValue > atmAvailable
     ) {
       return;
@@ -147,7 +133,7 @@ export const WithdrawScreen: React.FC = () => {
     setShowConfirm(true);
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex h-full items-center justify-center self-center">
         <DynamicLabel preselected animated size={FONT_SIZES.xl}>
@@ -172,7 +158,7 @@ export const WithdrawScreen: React.FC = () => {
   }
 
   if (withdrawalSuccessAmount !== null) {
-    const formattedWithdrawn = formattedSuccesAmount;
+    const formattedWithdrawn = formattedSuccessAmount;
     return (
       <div className="withdraw-screen flex flex-col items-center justify-center p-6 space-y-4">
         <DynamicLabel animated preselected size={FONT_SIZES.lg}>
