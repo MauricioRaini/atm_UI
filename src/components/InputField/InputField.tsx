@@ -53,6 +53,7 @@ export const InputField = ({
       maxLength={maxLength}
       data-testid="input-field"
       style={{ height: "1rem" }}
+      disabled
     />
   );
 };
