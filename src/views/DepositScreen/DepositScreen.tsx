@@ -176,7 +176,7 @@ export const DepositScreen: React.FC = (): ReactElement => {
     return (
       <div className="deposit-screen confirm-overlay-container">
         <div
-          className="confirm-overlay absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-70"
+          className="confirm-overlay absolute top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-70"
           role="dialog"
         >
           <div className="confirm-box bg-gray-800 p-6 text-white flex flex-col space-y-4">
