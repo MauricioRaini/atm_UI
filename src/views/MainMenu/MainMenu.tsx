@@ -7,17 +7,19 @@ import { WelcomeScreen } from "../WelcomeScreen";
 import { WithdrawScreen } from "../WithdrawScreen";
 import { BalanceScreen } from "../BalanceScreen";
 import { DepositScreen } from "../DepositScreen";
+import { useFinancialStore } from "@/store";
 
 export const MainMenu = (): null => {
   const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
     useBlueScreenStore();
+  const { userName } = useFinancialStore();
 
   useEffect(() => {
     setFullScreen(false);
     clearButtonBindings();
     setScreenContent(
       <DynamicLabel animated size={FONT_SIZES.sm}>
-        Hi Peter Parker! Please make a choice...
+        {`Hi ${userName}! Please make a choice...`}
       </DynamicLabel>,
     );
 

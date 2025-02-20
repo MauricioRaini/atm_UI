@@ -107,7 +107,7 @@ export const DepositScreen: React.FC = (): ReactElement => {
   const handleConfirm = async () => {
     if (pendingAmount == null) return;
     try {
-      await doDeposit(pendingAmount);
+      await doDeposit(accountNumber, pendingAmount);
       setDepositSuccessAmount(pendingAmount);
     } catch (error) {
       throw new Error(error as string);

@@ -10,23 +10,26 @@ export type ButtonBinding = {
 };
 
 type BlueScreenState = {
+  currentUserId: string | null;
   screenContent: React.ReactNode;
   buttonBindings: { [key: number]: ButtonBinding };
   isAuthenticated: boolean;
   userCardType: CardTypes | null;
   fullScreen: boolean;
+  isBlocked: boolean;
+  setUserId: (id: string | null) => void;
   setScreenContent: (content: React.ReactNode) => void;
   setButtonBinding: (index: ATMButtons, binding: ButtonBinding) => void;
   clearButtonBindings: () => void;
   setAuth: (isAuth: boolean, cardType?: CardTypes) => void;
   navigateTo: (content: React.ReactNode, requiresAuth?: AccessLevel) => void;
   setFullScreen: (isFullScreen: boolean) => void;
-  isBlocked: boolean;
   blockUser: () => void;
   unblockUser: () => void;
 };
 
 export const useBlueScreenStore = create<BlueScreenState>((set, get) => ({
+  currentUserId: null,
   screenContent: <WelcomeScreen />,
   buttonBindings: {},
   isAuthenticated: false,
@@ -66,4 +69,5 @@ export const useBlueScreenStore = create<BlueScreenState>((set, get) => ({
     sessionStorage.removeItem("pin_block_until");
     set({ isBlocked: false });
   },
+  setUserId: (id) => set({ currentUserId: id }),
 }));

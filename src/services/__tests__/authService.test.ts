@@ -2,7 +2,7 @@ import { validatePIN } from "@/services";
 
 describe("🔐 Auth Service - verifyPIN()", () => {
   it("✅ Should return success when correct PIN is entered", async () => {
-    const response = await validatePIN("123456");
+    const response = await validatePIN("000000");
     expect(response.success).toBe(true);
   });
 

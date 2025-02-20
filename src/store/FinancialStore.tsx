@@ -2,12 +2,15 @@ import { create } from "zustand";
 import {
   getBalanceInfo,
   getWithdrawInfo,
-  performDeposit,
   performWithdraw,
+  performDeposit,
   resetMockData,
+  getUser,
 } from "@/services";
+import { useBlueScreenStore } from "./BlueScreenStore"; // so we can read currentUserId
 import { FINANCIAL_MOVEMENTS } from "@/types";
 
+/* TODO: We need to rethink a better single responsibility classification for the 2 stores. For time's sake we are leaving it like this, but ideally we need to refactor the stores so each handle only data related to that of the interest of the publisher/provider */
 export type FinancialState = {
   balance: number;
   atmAvailable: number;
@@ -18,15 +21,17 @@ export type FinancialState = {
     amount: number;
     type: FINANCIAL_MOVEMENTS;
   }>;
-  timeToLive: number;
-
+  userName: string;
+  userCardNumber: string;
   isLoading: boolean;
   error: string | null;
 
+  fetchUser: () => Promise<void>;
   fetchBalance: () => Promise<void>;
   fetchWithdrawInfo: () => Promise<void>;
   doWithdraw: (amount: number) => Promise<void>;
-  doDeposit: (amount: number) => Promise<void>;
+  doDeposit: (targetAccount: string, amount: number) => Promise<void>;
+
   resetAllData: () => void;
 };
 
@@ -36,31 +41,50 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
   dailyLimit: 0,
   dailyUsed: 0,
   lastMovements: [],
-  timeToLive: 0,
+  userName: "",
+  userCardNumber: "",
   isLoading: false,
   error: null,
 
-  fetchBalance: async () => {
+  async fetchUser() {
+    const { currentUserId } = useBlueScreenStore.getState();
+    if (!currentUserId) return;
+    set({ isLoading: true, error: null });
     try {
-      set({ isLoading: true, error: null });
-      const result = await getBalanceInfo();
+      const user = await getUser(currentUserId);
       set({
-        balance: result.balance,
+        userName: user.name,
+        userCardNumber: user.cardNumber,
+        balance: user.balance,
+        dailyLimit: user.dailyLimit,
+        dailyUsed: user.dailyUsed,
         isLoading: false,
       });
-    } catch (err) {
-      set({
-        error: "Unable to fetch balance",
-        isLoading: false,
-      });
-      throw new Error(err as string);
+    } catch (error) {
+      set({ error: "Unable to load user data", isLoading: false });
+      throw new Error(error as string);
     }
   },
 
-  fetchWithdrawInfo: async () => {
+  async fetchBalance() {
+    const { currentUserId } = useBlueScreenStore.getState();
+    if (!currentUserId) return;
+    set({ isLoading: true, error: null });
     try {
-      set({ isLoading: true, error: null });
-      const info = await getWithdrawInfo();
+      const result = await getBalanceInfo(currentUserId);
+      set({ balance: result.balance, isLoading: false });
+    } catch (error) {
+      set({ error: "Unable to fetch balance", isLoading: false });
+      throw new Error(error as string);
+    }
+  },
+
+  async fetchWithdrawInfo() {
+    const { currentUserId } = useBlueScreenStore.getState();
+    if (!currentUserId) return;
+    set({ isLoading: true, error: null });
+    try {
+      const info = await getWithdrawInfo(currentUserId);
       set({
         balance: info.balance,
         atmAvailable: info.atmAvailable,
@@ -68,19 +92,18 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
         dailyUsed: info.dailyUsed,
         isLoading: false,
       });
-    } catch (err) {
-      set({
-        error: "Unable to load withdraw info",
-        isLoading: false,
-      });
-      throw new Error(err as string);
+    } catch (error) {
+      set({ error: "Unable to load withdraw info", isLoading: false });
+      throw new Error(error as string);
     }
   },
 
-  doWithdraw: async (amount: number) => {
+  async doWithdraw(amount: number) {
+    const { currentUserId } = useBlueScreenStore.getState();
+    if (!currentUserId) return;
+    set({ isLoading: true, error: null });
     try {
-      set({ isLoading: true, error: null });
-      const result = await performWithdraw(amount);
+      const result = await performWithdraw(currentUserId, amount);
       set({
         balance: result.newBalance,
         atmAvailable: result.newAtmAvailable,
@@ -92,22 +115,22 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
         amount,
         type: FINANCIAL_MOVEMENTS.withdraw,
       });
-    } catch (err) {
-      set({
-        error: "Failed to withdraw. Please try again later.",
-        isLoading: false,
-      });
-      throw new Error(err as string);
+    } catch (error) {
+      set({ error: "Failed to withdraw. Please try again later.", isLoading: false });
+      throw new Error(error as string);
     }
   },
 
-  doDeposit: async (amount: number) => {
+  async doDeposit(targetAccount, amount) {
+    const { currentUserId } = useBlueScreenStore.getState();
+    if (!currentUserId) return;
+    set({ isLoading: true, error: null });
     try {
-      set({ isLoading: true, error: null });
-      const result = await performDeposit(amount);
+      const result = await performDeposit(currentUserId, targetAccount, amount);
       set({
         balance: result.newBalance,
-        dailyUsed: result.newAtmAvailable,
+        atmAvailable: result.newAtmAvailable,
+        dailyUsed: result.newDailyUsed,
         isLoading: false,
       });
       get().lastMovements.push({
@@ -115,24 +138,22 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
         amount,
         type: FINANCIAL_MOVEMENTS.deposit,
       });
-    } catch (err) {
-      set({
-        error: "Failed to deposit. Please try again later.",
-        isLoading: false,
-      });
-      throw new Error(err as string);
+    } catch (error) {
+      set({ error: "Failed to deposit. Please try again later.", isLoading: false });
+      throw new Error(error as string);
     }
   },
 
-  resetAllData: () => {
+  resetAllData() {
     resetMockData();
     set({
       balance: 0,
       atmAvailable: 0,
       dailyLimit: 0,
       dailyUsed: 0,
+      userName: "",
+      userCardNumber: "",
       lastMovements: [],
-      timeToLive: 0,
       isLoading: false,
       error: null,
     });

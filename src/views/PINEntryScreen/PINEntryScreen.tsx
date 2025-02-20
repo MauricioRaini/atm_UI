@@ -10,14 +10,24 @@ import { MainMenu } from "../MainMenu";
 import { DynamicLabel } from "@/components";
 import "./PINEntry.css";
 import { MAXIMUM_ATTEMPTS, MINIMUM_ATTEMPTS } from "@/constants/Timer.constants";
+import { useFinancialStore } from "@/store";
 
 export const PINEntryScreen: React.FC = (): ReactElement => {
   const [pin, setPin] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState(0);
 
-  const { setButtonBinding, navigateTo, setAuth, clearButtonBindings, setFullScreen, blockUser } =
-    useBlueScreenStore();
+  const {
+    setButtonBinding,
+    navigateTo,
+    setAuth,
+    clearButtonBindings,
+    setFullScreen,
+    blockUser,
+    setUserId,
+  } = useBlueScreenStore();
+
+  const { fetchUser } = useFinancialStore();
 
   useEffect(() => {
     setFullScreen(true);
@@ -41,16 +51,19 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
     setError(null);
   };
 
+  /* TODO: Refactor this handler into a single responsibility function, it is doing way too much things. */
   const handleEnterPress = async () => {
     if (pin.length < PIN_DIGITS) return;
 
     try {
       const result = await validatePIN(pin);
-      if (result.success) {
+      if (result.success && result.userId) {
         setPin("");
+        setUserId(result.userId);
         setError(null);
         setAttempts(0);
         setAuth(true);
+        await fetchUser();
         setFullScreen(false);
         navigateTo(<MainMenu />, AccessLevel.AUTHENTICATED);
       } else {
