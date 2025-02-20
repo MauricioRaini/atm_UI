@@ -1,0 +1,176 @@
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.atm-street-container {
+  @apply flex flex-col items-center justify-end w-full h-[100vh] bg-street;
+}
+
+.atm-container {
+  @apply flex flex-col gap-0 items-center justify-end h-[95%] w-[19rem];
+}
+
+.atm-header {
+  @apply flex justify-center items-center w-full max-w-[100%] max-h-[6.5rem] bg-atmHeader p-[1rem] rounded-lg;
+}
+
+.atm-image-header {
+  @apply w-[80%] h-auto object-contain;
+}
+
+.graffiti-header {
+  @apply absolute w-[9.5rem] h-auto object-contain -translate-y-[20%] -translate-x-[-40.5%];
+}
+
+.machine-container {
+  @apply flex flex-col items-center justify-start h-[80%] w-[17rem] bg-machine pt-[0.1rem];
+}
+
+.card-brands-container {
+  @apply w-[67%] overflow-hidden relative bottom-[-0.2rem] h-[1.5rem];
+}
+
+.card-brands-sprite {
+  @apply w-full object-cover;
+  opacity: 0.1;
+}
+
+.highlighted-brand {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100%;
+  opacity: 0;
+  transition: all ease-in-out;
+}
+
+.visa {
+  @apply w-[1.4rem] h-auto absolute left-[10.7rem];
+}
+
+.plus {
+  @apply w-[1.8rem] h-auto absolute left-[9rem];
+}
+
+.mastercard {
+  @apply w-[1.7rem] h-auto absolute left-[7.1rem];
+}
+
+.maestro {
+  @apply w-[1.7rem] h-auto absolute left-[5.1rem];
+}
+
+.pulse {
+  @apply w-[2rem] h-auto absolute left-[2.8rem];
+}
+
+.star {
+  @apply w-[1.4rem] h-auto absolute left-[0.8rem];
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sticker-atm {
+  @apply absolute w-[7.5rem] h-auto object-contain translate-y-[222%] -translate-x-[58%] z-[999] !important;
+}
+
+.systems-logo {
+  @apply absolute w-[2.5rem] h-auto object-contain translate-y-[4650%] -translate-x-[-175%] z-[999] !important;
+}
+
+.top-shadow-machine {
+  @apply bg-shadowMachine w-[17rem] h-[0.4rem];
+}
+
+.blue-screen {
+  @apply w-[68%] bg-screen h-[11rem] text-white font-atm flex items-start overflow-hidden relative justify-center;
+  @apply border-[0.15rem] border-gray-300 shadow-[inset_0_0_4px_rgba(0,0,0,0.2)];
+}
+
+.main-content-blue-screen {
+  @apply flex h-[4rem] items-end justify-center overflow-hidden px-4 !important;
+}
+
+.main-content-blue-screen-full {
+  @apply flex h-full items-start justify-center px-4 relative top-[0.2rem] !important;
+}
+
+.atm-buttons-container {
+  @apply flex w-full justify-between px-10 mt-4;
+}
+
+.atm-buttons {
+  @apply flex flex-col space-y-2;
+}
+
+.atm-buttons.left {
+  @apply items-start justify-start relative bottom-[7rem] right-[2rem];
+}
+
+.atm-buttons.right {
+  @apply items-start justify-start relative bottom-[7rem] left-[2rem];
+}
+
+.atm-button {
+  @apply w-14 h-10 bg-gray-300 text-black font-bold rounded-lg shadow-md transition-all;
+}
+
+.atm-button:hover {
+  @apply bg-gray-400 scale-105;
+}
+
+.button-labels {
+  @apply absolute w-full h-full;
+}
+
+.button-wrapper {
+  @apply flex items-center relative;
+}
+
+.button-labels {
+  @apply absolute w-full h-full;
+}
+
+.button-label {
+  @apply text-white text-xs font-atm absolute whitespace-nowrap;
+}
+
+/* Left Side Labels */
+.label-0 {
+  @apply top-0 left-[2.4rem];
+}
+.label-1 {
+  @apply top-[0%] left-[2.4rem];
+}
+.label-2 {
+  @apply top-[0%] left-[2.4rem];
+}
+.label-3 {
+  @apply bottom-0 left-[2.4rem];
+}
+
+/* Right Side Labels */
+.label-4 {
+  @apply top-0 right-[2.4rem];
+}
+.label-5 {
+  @apply top-[0%] right-[2.4rem];
+}
+.label-6 {
+  @apply top-[0%] right-[2.4rem];
+}
+.label-7 {
+  @apply bottom-0 right-[2.4rem];
+}
