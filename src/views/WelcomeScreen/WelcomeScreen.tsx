@@ -6,11 +6,18 @@ import { AccessLevel } from "@/types/auth.types";
 import { PINEntryScreen } from "../PINEntryScreen";
 
 export const WelcomeScreen = (): null => {
-  const { navigateTo, clearButtonBindings, setButtonBinding, setScreenContent, setFullScreen } =
-    useBlueScreenStore();
+  const {
+    navigateTo,
+    clearButtonBindings,
+    setButtonBinding,
+    setScreenContent,
+    setFullScreen,
+    setAuth,
+  } = useBlueScreenStore();
 
   useEffect(() => {
     setFullScreen(false);
+    setAuth(false);
     clearButtonBindings();
     setScreenContent(
       <DynamicLabel animated size={FONT_SIZES.lg}>
