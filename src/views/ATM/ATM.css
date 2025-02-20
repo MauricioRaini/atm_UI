@@ -18,17 +18,12 @@
 }
 
 .graffiti-header {
-  @apply absolute w-[9.5rem] h-auto object-contain top-[5rem] -translate-x-[-40.5%];
+  @apply absolute w-[9.5rem] h-auto object-contain -translate-y-[20%] -translate-x-[-40.5%];
 }
 
 .machine-container {
   @apply flex flex-col items-center justify-start h-[80%] w-[17rem] bg-machine pt-[0.1rem];
 }
-
-/* .card-brands-sprite {
-  @apply w-[67%] object-cover relative bottom-[0.7rem];
-  clip-path: inset(50% 0 0 0);
-} */
 
 .card-brands-container {
   @apply w-[67%] overflow-hidden relative bottom-[-0.2rem] h-[1.5rem];
@@ -88,11 +83,11 @@
 }
 
 .sticker-atm {
-  @apply absolute w-[7.5rem] h-auto object-contain top-[23rem] -translate-x-[55%] z-[999] !important;
+  @apply absolute w-[7.5rem] h-auto object-contain translate-y-[222%] -translate-x-[58%] z-[999] !important;
 }
 
 .systems-logo {
-  @apply absolute w-[2.5rem] h-auto object-contain top-[24rem] -translate-x-[-175%] z-[999] !important;
+  @apply absolute w-[2.5rem] h-auto object-contain translate-y-[4650%] -translate-x-[-175%] z-[999] !important;
 }
 
 .top-shadow-machine {
@@ -100,7 +95,7 @@
 }
 
 .blue-screen {
-  @apply w-[68%] h-[80%] bg-screen h-[30%] text-white font-atm flex items-start overflow-hidden relative justify-center;
+  @apply w-[68%] bg-screen h-[11rem] text-white font-atm flex items-start overflow-hidden relative justify-center;
   @apply border-[0.15rem] border-gray-300 shadow-[inset_0_0_4px_rgba(0,0,0,0.2)];
 }
 
