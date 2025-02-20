@@ -76,6 +76,6 @@ export async function performDeposit(amount: number): Promise<{
         newAtmAvailable: machineBalance,
         newDailyUsed: dailyUsed,
       });
-    }, 300);
+    }, 1000);
   });
 }
