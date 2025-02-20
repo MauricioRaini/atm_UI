@@ -9,14 +9,14 @@ import { validatePIN } from "@/services";
 import { MainMenu } from "../MainMenu";
 import { DynamicLabel } from "@/components";
 import "./PINEntry.css";
+import { MAXIMUM_ATTEMPTS, MINIMUM_ATTEMPTS } from "@/constants/Timer.constants";
 
 export const PINEntryScreen: React.FC = (): ReactElement => {
   const [pin, setPin] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState(0);
-  const [lockUntil, setLockUntil] = useState<Date | null>(null);
 
-  const { setButtonBinding, navigateTo, setAuth, clearButtonBindings, setFullScreen } =
+  const { setButtonBinding, navigateTo, setAuth, clearButtonBindings, setFullScreen, blockUser } =
     useBlueScreenStore();
 
   useEffect(() => {
@@ -30,23 +30,18 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isLocked = lockUntil && lockUntil > new Date();
-
   const handleNumberPress = (num: number) => {
-    if (isLocked) return;
     if (pin.length >= PIN_DIGITS) return;
     setPin((prev) => prev + String(num));
     setError(null);
   };
 
   const handleClearPress = () => {
-    if (isLocked) return;
     setPin("");
     setError(null);
   };
 
   const handleEnterPress = async () => {
-    if (isLocked) return;
     if (pin.length < PIN_DIGITS) return;
 
     try {
@@ -62,11 +57,10 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
         setError("Incorrect PIN");
         setPin("");
         setAttempts((prev) => {
-          const newAttempts = prev + 1;
-          if (newAttempts >= 3) {
-            const future = new Date();
-            future.setMinutes(future.getMinutes() + 10);
-            setLockUntil(future);
+          const newAttempts = prev + MINIMUM_ATTEMPTS;
+          if (newAttempts >= MAXIMUM_ATTEMPTS) {
+            blockUser();
+            clearButtonBindings();
           }
           return newAttempts;
         });
@@ -78,7 +72,6 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
   };
 
   const onInputChange = (value: string) => {
-    if (isLocked) return;
     if (value.length <= PIN_DIGITS) {
       setPin(value);
       setError(null);
@@ -87,34 +80,27 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
 
   return (
     <div className="pin-entry-screen">
-      {isLocked ? (
-        <div className="locked-message" style={{ color: "red" }}>
-          You are locked out for 10 minutes due to too many failed attempts.
-        </div>
-      ) : (
-        <div className="pin-main-container">
-          <DynamicLabel preselected size={FONT_SIZES.xs}>
-            {error ? error : "Please enter your 6 digits PIN"}
-          </DynamicLabel>
-
-          <InputField
-            value={pin}
-            onChange={onInputChange}
-            onEnter={handleEnterPress}
-            maxLength={PIN_DIGITS}
-            error={!!error}
-            data-testid="pin-input-field"
-            masked
+      <div className="pin-main-container">
+        <DynamicLabel preselected size={FONT_SIZES.xs}>
+          {error ? error : "Please enter your 6 digits PIN"}
+        </DynamicLabel>
+        <InputField
+          value={pin}
+          onChange={onInputChange}
+          onEnter={handleEnterPress}
+          maxLength={PIN_DIGITS}
+          error={!!error}
+          data-testid="pin-input-field"
+          masked
+        />
+        <div className="keyboard-container-pin-entry">
+          <NumericKeyboard
+            onNumberPress={handleNumberPress}
+            onEnterPress={handleEnterPress}
+            onClearPress={handleClearPress}
           />
-          <div className="keyboard-container-pin-entry">
-            <NumericKeyboard
-              onNumberPress={handleNumberPress}
-              onEnterPress={handleEnterPress}
-              onClearPress={handleClearPress}
-            />
-          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
