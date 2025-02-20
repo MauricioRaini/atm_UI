@@ -7,6 +7,7 @@ import graffitiHeader from "@/assets/graffiti.png";
 import sticker from "@/assets/sticker_graf.png";
 import systems from "@/assets/systems.png";
 import "./ATM.css";
+import { ATMButtons } from "@/types";
 
 export const ATM = (): ReactElement => {
   const { screenContent, buttonBindings, fullScreen } = useBlueScreenStore();
@@ -25,7 +26,12 @@ export const ATM = (): ReactElement => {
     () => (
       <>
         <div className="atm-buttons left">
-          {[0, 1, 2, 3].map((index) => (
+          {[
+            ATMButtons.UpperLeft,
+            ATMButtons.MiddleTopLeft,
+            ATMButtons.MiddleBottomLeft,
+            ATMButtons.LowerLeft,
+          ].map((index) => (
             <div key={index} className="relative">
               <ATMButton isLeftButton onClick={buttonBindings[index]?.action || (() => {})} />
               {buttonBindings[index]?.label && (
@@ -35,7 +41,12 @@ export const ATM = (): ReactElement => {
           ))}
         </div>
         <div className="atm-buttons right">
-          {[4, 5, 6, 7].map((index) => (
+          {[
+            ATMButtons.UpperRight,
+            ATMButtons.MiddleTopRight,
+            ATMButtons.MiddleBottomRight,
+            ATMButtons.LowerRight,
+          ].map((index) => (
             <div key={index} className="relative">
               <ATMButton onClick={buttonBindings[index]?.action || (() => {})} />
               {buttonBindings[index]?.label && (
