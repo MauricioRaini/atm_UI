@@ -11,6 +11,7 @@ import { AccessLevel, ATMButtons, CARD_TAILWIND_CLASSES, FONT_SIZES } from "@/ty
 import { DynamicLabel } from "@/components";
 import { WelcomeScreen } from "../WelcomeScreen";
 import { CARD_IMAGES } from "@/constants/cards.constants";
+import { useFinancialStore } from "@/store";
 
 export const ATM = (): ReactElement => {
   const {
@@ -22,8 +23,9 @@ export const ATM = (): ReactElement => {
     setFullScreen,
     navigateTo,
     isAuthenticated,
-    userCardType,
   } = useBlueScreenStore();
+
+  const { userCardType } = useFinancialStore();
 
   const handleUnlock = () => {
     unblockUser();

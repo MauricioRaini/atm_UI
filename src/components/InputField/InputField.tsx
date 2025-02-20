@@ -8,6 +8,7 @@ export type InputFieldProps = {
   maxLength?: number;
   error?: boolean;
   masked?: boolean;
+  disabled?: boolean;
 };
 
 export const InputField = ({
@@ -17,6 +18,7 @@ export const InputField = ({
   maxLength = 10,
   error = false,
   masked = false,
+  disabled = false,
 }: InputFieldProps) => {
   const [inputValue, setInputValue] = useState(value);
 
@@ -53,7 +55,7 @@ export const InputField = ({
       maxLength={maxLength}
       data-testid="input-field"
       style={{ height: "1rem" }}
-      disabled
+      disabled={disabled}
     />
   );
 };

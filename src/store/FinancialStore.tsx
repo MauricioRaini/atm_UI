@@ -8,7 +8,7 @@ import {
   getUser,
 } from "@/services";
 import { useBlueScreenStore } from "./BlueScreenStore"; // so we can read currentUserId
-import { FINANCIAL_MOVEMENTS } from "@/types";
+import { CardTypes, FINANCIAL_MOVEMENTS, User } from "@/types";
 
 /* TODO: We need to rethink a better single responsibility classification for the 2 stores. For time's sake we are leaving it like this, but ideally we need to refactor the stores so each handle only data related to that of the interest of the publisher/provider */
 export type FinancialState = {
@@ -23,10 +23,11 @@ export type FinancialState = {
   }>;
   userName: string;
   userCardNumber: string;
+  userCardType: CardTypes | null;
   isLoading: boolean;
   error: string | null;
 
-  fetchUser: () => Promise<void>;
+  fetchUser: () => Promise<User | undefined>;
   fetchBalance: () => Promise<void>;
   fetchWithdrawInfo: () => Promise<void>;
   doWithdraw: (amount: number) => Promise<void>;
@@ -43,6 +44,7 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
   lastMovements: [],
   userName: "",
   userCardNumber: "",
+  userCardType: null,
   isLoading: false,
   error: null,
 
@@ -55,11 +57,13 @@ export const useFinancialStore = create<FinancialState>((set, get) => ({
       set({
         userName: user.name,
         userCardNumber: user.cardNumber,
+        userCardType: user.userCardType,
         balance: user.balance,
         dailyLimit: user.dailyLimit,
         dailyUsed: user.dailyUsed,
         isLoading: false,
       });
+      return user;
     } catch (error) {
       set({ error: "Unable to load user data", isLoading: false });
       throw new Error(error as string);

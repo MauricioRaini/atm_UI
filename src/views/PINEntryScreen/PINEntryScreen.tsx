@@ -105,6 +105,7 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
           error={!!error}
           data-testid="pin-input-field"
           masked
+          disabled
         />
         <div className="keyboard-container-pin-entry">
           <NumericKeyboard
