@@ -91,8 +91,6 @@ Here’s an **overview** of how we might structure a production-level system:
    ```
    Access at [http://localhost:8080](http://localhost:8080).
 
-*(You can push this to Docker Hub or any registry if you want others to run it without building.)*
-
 ### **Local Development (npm & Vite)**
 
 1. **Install** dependencies:
