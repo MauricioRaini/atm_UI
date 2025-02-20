@@ -1,0 +1,18 @@
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.dynamicLabel {
+  @apply font-atm text-chat text-lg transition-all duration-150 ease-in-out text-center;
+}
+
+.dynamicLabel h1 {
+  @apply text-2xl font-bold;
+}
+
+.dynamicLabel h2 {
+  @apply text-xl font-semibold;
+}
+
+.dynamicLabel span {
+  @apply text-lg font-normal;
+}
