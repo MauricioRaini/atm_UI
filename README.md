@@ -10,19 +10,20 @@ An **interactive ATM web application** that supports **multi-user** flows, depos
 
 ## **Table of Contents**
 
-1. [Product Concept & Perspective](#product-concept--perspective)  
-2. [System Design & Architecture](#system-design--architecture)  
-3. [Installation & Running the Project](#installation--running-the-project)  
-   - [Docker Approach](#docker-approach)  
-   - [Local Development (npm & Vite)](#local-development-npm--vite)  
-   - [Running Storybook](#running-storybook)  
-   - [Project Requirements](#project-requirements)  
-   - [User Credentials & Multi-User Flow](#user-credentials--multi-user-flow)  
-4. [Main Overview of Components & Design Patterns](#main-overview-of-components--design-patterns)  
-   - [Test-Driven Development (Given/When/Then)](#test-driven-development-givenwhenthen)  
-5. [How to Collaborate & Best Practices](#how-to-collaborate--best-practices)  
-6. [Responsive Design](#responsive-design)  
-7. [What’s Next? Roadmap & Future Plans](#whats-next-roadmap--future-plans)
+1. [Product Concept & Perspective](#product-concept--perspective)
+2. [System Design & Architecture](#system-design--architecture)
+3. [Installation & Running the Project](#installation--running-the-project)
+   - [Docker Approach](#docker-approach)
+   - [Local Development (npm & Vite)](#local-development-npm--vite)
+   - [Running Storybook](#running-storybook)
+   - [Project Requirements](#project-requirements)
+   - [User Credentials & Multi-User Flow](#user-credentials--multi-user-flow)
+4. [Public Deployment on Vercel](#public-deployment-on-vercel)
+5. [Main Overview of Components & Design Patterns](#main-overview-of-components--design-patterns)
+   - [Test-Driven Development (Given/When/Then)](#test-driven-development-givenwhenthen)
+6. [How to Collaborate & Best Practices](#how-to-collaborate--best-practices)
+7. [Responsive Design](#responsive-design)
+8. [What’s Next? Roadmap & Future Plans](#whats-next-roadmap--future-plans)
 
 ---
 
@@ -168,6 +169,20 @@ const mockDB: MockUser[] = [
 - **CardNumber** & **PIN** **ARE THE KEY ACCESS AND THE WAY TO AUTHENTICATE YOURSELF IN THE PIN ENTRY SCREEN**. For instance, `cardNumber=000000` OR `pin=000000` => Ethan.  
 - Once logged in, you can do deposit/withdraw, etc.  
 - Try depositing to someone else’s card number for a multi-user example.
+
+---
+
+## **4) Public Deployment on Vercel**
+
+We have deployed the app publicly at:
+
+- **[https://atm-ui-five.vercel.app/](https://atm-ui-five.vercel.app/)**
+
+This is a **static build** served through Vercel.
+
+1. **Vercel** is a good option for me in this case because it connects through Github to you account and allows CI/CD to automatically update the public page.
+2. **No** separate backend needed—since we use a mock DB in the front-end.
+3. You can log in with e.g. **cardNumber=000000**, **pin=000000** (Ethan), or the other combos above.
 
 ---
 
