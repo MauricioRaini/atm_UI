@@ -165,7 +165,7 @@ const mockDB: MockUser[] = [
 ];
 ```
 
-- **CardNumber** & **PIN** **ARE THE KEY ACCESS AND THE WAY TO AUTHENTICATE YOURSELF IN THE PIN ENTRY SCREEN**. For instance, `cardNumber=000000` + `pin=000000` => Ethan.  
+- **CardNumber** & **PIN** **ARE THE KEY ACCESS AND THE WAY TO AUTHENTICATE YOURSELF IN THE PIN ENTRY SCREEN**. For instance, `cardNumber=000000` OR `pin=000000` => Ethan.  
 - Once logged in, you can do deposit/withdraw, etc.  
 - Try depositing to someone else’s card number for a multi-user example.
 
