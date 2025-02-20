@@ -1,4 +1,4 @@
-import { ReactElement, useMemo } from "react";
+import { ReactElement, useEffect, useMemo } from "react";
 import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { ATMButton } from "@/components/ATMButton";
 import atmHeader from "@/assets/atm_sign.png";
@@ -7,10 +7,25 @@ import graffitiHeader from "@/assets/graffiti.png";
 import sticker from "@/assets/sticker_graf.png";
 import systems from "@/assets/systems.png";
 import "./ATM.css";
-import { ATMButtons } from "@/types";
+import { AccessLevel, ATMButtons, FONT_SIZES } from "@/types";
+import { DynamicLabel } from "@/components";
+import { WelcomeScreen } from "../WelcomeScreen";
 
 export const ATM = (): ReactElement => {
-  const { screenContent, buttonBindings, fullScreen } = useBlueScreenStore();
+  const {
+    screenContent,
+    buttonBindings,
+    fullScreen,
+    isBlocked,
+    unblockUser,
+    setFullScreen,
+    navigateTo,
+  } = useBlueScreenStore();
+
+  const handleUnlock = () => {
+    unblockUser();
+    navigateTo(<WelcomeScreen />, AccessLevel.PUBLIC);
+  };
 
   const memoizedImages = useMemo(
     () => ({
@@ -60,6 +75,23 @@ export const ATM = (): ReactElement => {
     [buttonBindings],
   );
 
+  const memoizedUserBlocked = (
+    <div className="flex flex-col justify-center align-center absolute top-[0rem] p-[1rem] gap-[0.5rem]">
+      <DynamicLabel size={FONT_SIZES.sm} preselected>
+        You are locked out for 5 minutes due to too many failed attempts.
+      </DynamicLabel>
+      <DynamicLabel size={FONT_SIZES.sm} animated>
+        {"Press button to bypass block (dev env only)"}
+      </DynamicLabel>
+      <ATMButton onClick={handleUnlock} hidePath />
+    </div>
+  );
+
+  useEffect(() => {
+    setFullScreen(!isBlocked);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBlocked]);
+
   return (
     <div className="atm-street-container">
       <div data-testid="atm-container" className="atm-container">
@@ -74,7 +106,7 @@ export const ATM = (): ReactElement => {
             <div
               className={`${fullScreen ? "main-content-blue-screen-full" : "main-content-blue-screen"}`}
             >
-              {screenContent}
+              {isBlocked ? memoizedUserBlocked : screenContent}
             </div>
           </div>
           <img src={memoizedImages.sticker} alt="Sticker Graffiti" className="sticker-atm" />
