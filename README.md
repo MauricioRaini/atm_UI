@@ -77,17 +77,17 @@ Here’s an **overview** of how we might structure a production-level system:
 
 1. **Clone** the repository:
    ```bash
-   git clone https://github.com/<yourusername>/atm-frontend.git
-   cd atm-frontend
+   git clone https://github.com/MauricioRaini/atm_UI.git
+   cd atm_UI
    ```
 2. **Build** the Docker image:
    ```bash
-   docker build -t atm-frontend .
+   docker build -t atm_ui .
    ```
    This uses a multi-stage build (Node + NGINX) to compile the React app.
 3. **Run** the container:
    ```bash
-   docker run --rm -d -p 8080:80 --name atm-ui atm-frontend
+   docker run --rm -d -p 8080:80 --name atm-frontend atm_ui
    ```
    Access at [http://localhost:8080](http://localhost:8080).
 
