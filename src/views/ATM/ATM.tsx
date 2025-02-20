@@ -7,9 +7,10 @@ import graffitiHeader from "@/assets/graffiti.png";
 import sticker from "@/assets/sticker_graf.png";
 import systems from "@/assets/systems.png";
 import "./ATM.css";
-import { AccessLevel, ATMButtons, FONT_SIZES } from "@/types";
+import { AccessLevel, ATMButtons, CARD_TAILWIND_CLASSES, FONT_SIZES } from "@/types";
 import { DynamicLabel } from "@/components";
 import { WelcomeScreen } from "../WelcomeScreen";
+import { CARD_IMAGES } from "@/constants/cards.constants";
 
 export const ATM = (): ReactElement => {
   const {
@@ -20,6 +21,8 @@ export const ATM = (): ReactElement => {
     unblockUser,
     setFullScreen,
     navigateTo,
+    isAuthenticated,
+    userCardType,
   } = useBlueScreenStore();
 
   const handleUnlock = () => {
@@ -101,7 +104,17 @@ export const ATM = (): ReactElement => {
         </div>
         <div className="top-shadow-machine" />
         <div className="machine-container">
-          <img src={memoizedImages.brands} alt="ATM Brands" className="card-brands-sprite" />
+          <div className="card-brands-container">
+            <img src={memoizedImages.brands} alt="ATM Brands" className="card-brands-sprite" />
+
+            {isAuthenticated && userCardType && CARD_IMAGES[userCardType] && (
+              <img
+                src={CARD_IMAGES[userCardType]}
+                alt={`${userCardType} Logo`}
+                className={`highlighted-brand fade-in ${CARD_TAILWIND_CLASSES[userCardType]}`}
+              />
+            )}
+          </div>
           <div data-testid="blue-screen" className="blue-screen">
             <div
               className={`${fullScreen ? "main-content-blue-screen-full" : "main-content-blue-screen"}`}

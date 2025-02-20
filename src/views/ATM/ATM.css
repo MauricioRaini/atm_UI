@@ -25,9 +25,66 @@
   @apply flex flex-col items-center justify-start h-[80%] w-[17rem] bg-machine pt-[0.1rem];
 }
 
-.card-brands-sprite {
+/* .card-brands-sprite {
   @apply w-[67%] object-cover relative bottom-[0.7rem];
   clip-path: inset(50% 0 0 0);
+} */
+
+.card-brands-container {
+  @apply w-[67%] overflow-hidden relative bottom-[-0.2rem] h-[1.5rem];
+}
+
+.card-brands-sprite {
+  @apply w-full object-cover;
+  opacity: 0.1;
+}
+
+.highlighted-brand {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100%;
+  opacity: 0;
+  transition: all ease-in-out;
+}
+
+.visa {
+  @apply w-[1.4rem] h-auto absolute left-[10.7rem];
+}
+
+.plus {
+  @apply w-[1.8rem] h-auto absolute left-[9rem];
+}
+
+.mastercard {
+  @apply w-[1.7rem] h-auto absolute left-[7.1rem];
+}
+
+.maestro {
+  @apply w-[1.7rem] h-auto absolute left-[5.1rem];
+}
+
+.pulse {
+  @apply w-[2rem] h-auto absolute left-[2.8rem];
+}
+
+.star {
+  @apply w-[1.4rem] h-auto absolute left-[0.8rem];
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .sticker-atm {
