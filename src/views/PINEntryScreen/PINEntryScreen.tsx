@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { ATMButtons } from "@/types";
+import { ATMButtons, FONT_SIZES } from "@/types";
 import { AccessLevel, PIN_DIGITS } from "@/types/auth.types";
 import { InputField } from "@/components/InputField";
 import { WelcomeScreen } from "@/views/WelcomeScreen/WelcomeScreen";
@@ -7,6 +7,8 @@ import { useBlueScreenStore } from "@/store/BlueScreenStore";
 import { NumericKeyboard } from "@/components/NumericKeyboard/NumericKeyboard";
 import { validatePIN } from "@/services";
 import { MainMenu } from "../MainMenu";
+import { DynamicLabel } from "@/components";
+import "./PINEntry.css";
 
 export const PINEntryScreen: React.FC = (): ReactElement => {
   const [pin, setPin] = useState("");
@@ -91,7 +93,9 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
         </div>
       ) : (
         <div className="pin-main-container">
-          {error && <div className="error-message">{error}</div>}
+          <DynamicLabel preselected size={FONT_SIZES.xs}>
+            {error ? error : "Please enter your 6 digits PIN"}
+          </DynamicLabel>
 
           <InputField
             value={pin}
@@ -102,12 +106,13 @@ export const PINEntryScreen: React.FC = (): ReactElement => {
             data-testid="pin-input-field"
             masked
           />
-
-          <NumericKeyboard
-            onNumberPress={handleNumberPress}
-            onEnterPress={handleEnterPress}
-            onClearPress={handleClearPress}
-          />
+          <div className="keyboard-container-pin-entry">
+            <NumericKeyboard
+              onNumberPress={handleNumberPress}
+              onEnterPress={handleEnterPress}
+              onClearPress={handleClearPress}
+            />
+          </div>
         </div>
       )}
     </div>

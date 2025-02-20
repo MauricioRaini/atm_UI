@@ -37,6 +37,8 @@ export const DepositScreen: React.FC = (): ReactElement => {
   const formattedPending = useCurrencyFormatter(pendingAmount ?? 0);
   const formattedSuccessAmount = useCurrencyFormatter(depositSuccessAmount ?? 0);
   const formattedCustom = useCurrencyFormatter(customAmountValue);
+  const isAccountFormatValid = accountNumber.length === PIN_DIGITS;
+  const invalidAccountNumber = !isAccountFormatValid && accountNumber.length > 0;
 
   useEffect(() => {
     clearButtonBindings();
@@ -54,8 +56,6 @@ export const DepositScreen: React.FC = (): ReactElement => {
       return () => clearTimeout(timer);
     }
   }, [depositSuccessAmount, navigateTo]);
-
-  const isAccountFormatValid = accountNumber.length === PIN_DIGITS;
 
   const showButtons = !isLoading && !error && depositSuccessAmount === null && !showConfirm;
 
@@ -206,27 +206,31 @@ export const DepositScreen: React.FC = (): ReactElement => {
   if (showAccountEntry) {
     return (
       <div className="deposit-screen flex flex-col items-center justify-center p-3 space-y-2">
-        <DynamicLabel animated size={FONT_SIZES.xs}>
-          Enter the 6-digit account number:
-        </DynamicLabel>
+        <div className="flex flex-col items-center justify-center p-3 space-y-2 relative bottom-[1rem]">
+          <DynamicLabel animated size={FONT_SIZES.xs}>
+            Enter the 6-digit account number:
+          </DynamicLabel>
 
-        <InputField
-          value={accountNumber}
-          onChange={(val) => setAccountNumber(val.replace(/\D/g, "").slice(0, PIN_DIGITS))}
-          onEnter={handleAccountEnter}
-          maxLength={PIN_DIGITS}
-          data-testid="account-number-field"
-          error={!isAccountFormatValid && accountNumber.length > 0}
-        />
-        <div className="flex w-full justify-start items-center">
-          <NumericKeyboard
-            onNumberPress={handleAccountNumberPress}
-            onClearPress={handleAccountClear}
-            onEnterPress={handleAccountEnter}
+          <InputField
+            value={accountNumber}
+            onChange={(val) => setAccountNumber(val.replace(/\D/g, "").slice(0, PIN_DIGITS))}
+            onEnter={handleAccountEnter}
+            maxLength={PIN_DIGITS}
+            data-testid="account-number-field"
+            error={invalidAccountNumber}
           />
+          <div className="flex w-full justify-start items-center">
+            <NumericKeyboard
+              onNumberPress={handleAccountNumberPress}
+              onClearPress={handleAccountClear}
+              onEnterPress={handleAccountEnter}
+            />
+          </div>
         </div>
-        {!isAccountFormatValid && accountNumber.length > 0 && (
-          <DynamicLabel size={FONT_SIZES.xs}>Account format invalid</DynamicLabel>
+        {invalidAccountNumber && (
+          <div className="flex absolute left-[6rem] bottom-[0.6rem]">
+            <DynamicLabel size={FONT_SIZES.xs}>Account format invalid</DynamicLabel>
+          </div>
         )}
       </div>
     );
