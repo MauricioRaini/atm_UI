@@ -17,7 +17,7 @@ const mockDB: MockUser[] = [
   {
     id: "userA",
     pin: "000000",
-    cardNumber: "111111",
+    cardNumber: "000000",
     name: "Ethan Blake",
     balance: 5000,
     dailyLimit: 2000,
@@ -27,7 +27,7 @@ const mockDB: MockUser[] = [
   {
     id: "userB",
     pin: "111111",
-    cardNumber: "222222",
+    cardNumber: "111111",
     name: "Canelo Alvarez",
     balance: 1000,
     dailyLimit: 300,
@@ -37,7 +37,7 @@ const mockDB: MockUser[] = [
   {
     id: "userC",
     pin: "222222",
-    cardNumber: "333333",
+    cardNumber: "222222",
     name: "Peter Parker",
     balance: 3000,
     dailyLimit: 700,
@@ -46,10 +46,6 @@ const mockDB: MockUser[] = [
   },
 ];
 
-/**
- * Checks the PIN to find a user.
- * Return {success:true, userId} if found, else false.
- */
 export async function validatePIN(pin: string): Promise<{ success: boolean; userId?: string }> {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -63,10 +59,6 @@ export async function validatePIN(pin: string): Promise<{ success: boolean; user
   });
 }
 
-/**
- * After logging in, we call getUser to fetch full info,
- * including name, daily limit, userCardType, etc.
- */
 export async function getUser(userId: string): Promise<{
   id: string;
   name: string;
@@ -79,8 +71,9 @@ export async function getUser(userId: string): Promise<{
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const user = mockDB.find((u) => u.id === userId);
-      if (!user) return reject(new Error("User not found"));
-
+      if (!user) {
+        return reject(new Error("User not found"));
+      }
       resolve({
         id: user.id,
         name: user.name,
@@ -156,17 +149,22 @@ export async function performDeposit(
   targetAccount: string,
   amount: number,
 ): Promise<{
-  newBalance: number;
-  newAtmAvailable: number;
-  newDailyUsed: number;
+  newBalance: number; // source user's new balance
+  newAtmAvailable: number; // machine's new capacity
+  newDailyUsed: number; // source user's dailyUsed
 }> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const sourceUser = mockDB.find((u) => u.id === sourceUserId);
       if (!sourceUser) return reject(new Error("Source user not found"));
+      if (sourceUser.cardNumber === targetAccount) {
+        return reject(new Error("Cannot deposit to yourself!"));
+      }
 
       const targetUser = mockDB.find((u) => u.cardNumber === targetAccount);
-      if (!targetUser) return reject(new Error("Target account not found"));
+      if (!targetUser) {
+        return reject(new Error("Target account not found"));
+      }
 
       sourceUser.balance -= amount;
       sourceUser.dailyUsed += amount;

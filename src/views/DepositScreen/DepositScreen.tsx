@@ -57,6 +57,15 @@ export const DepositScreen: React.FC = (): ReactElement => {
     }
   }, [depositSuccessAmount, navigateTo]);
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        navigateTo(<MainMenu />, AccessLevel.AUTHENTICATED);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, navigateTo]);
+
   const showButtons = !isLoading && !error && depositSuccessAmount === null && !showConfirm;
 
   useEffect(() => {
@@ -75,14 +84,8 @@ export const DepositScreen: React.FC = (): ReactElement => {
         action: () => setShowAccountEntry(false),
       });
     }
-  }, [
-    showButtons,
-    showAccountEntry,
-    isAccountFormatValid,
-    navigateTo,
-    clearButtonBindings,
-    setButtonBinding,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showButtons, showAccountEntry, isAccountFormatValid]);
 
   const handleAccountNumberPress = (num: number) => {
     if (accountNumber.length < PIN_DIGITS) {
@@ -108,6 +111,7 @@ export const DepositScreen: React.FC = (): ReactElement => {
     if (pendingAmount == null) return;
     try {
       await doDeposit(accountNumber, pendingAmount);
+      console.log("success", pendingAmount);
       setDepositSuccessAmount(pendingAmount);
     } catch (error) {
       throw new Error(error as string);
@@ -132,9 +136,7 @@ export const DepositScreen: React.FC = (): ReactElement => {
 
   const handleEnterPress = () => {
     if (customAmountValue <= 0 || customAmountValue > MAX_WITHDRAW) return;
-    if (customAmountValue > remainingLimit) {
-      return;
-    }
+    if (customAmountValue > remainingLimit) return;
     setPendingAmount(customAmountValue);
     setShowConfirm(true);
   };
