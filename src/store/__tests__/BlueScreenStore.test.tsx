@@ -1,9 +1,10 @@
 import { renderHook, act } from "@testing-library/react";
 import { useBlueScreenStore } from "../BlueScreenStore";
+import { AccessLevel } from "@/types/auth.types";
+import { ATMButtons } from "@/types";
 
 describe("🛠️ BlueScreen Store", () => {
   beforeEach(() => {
-    // Reset store state before each test
     act(() => {
       useBlueScreenStore.setState({
         screenContent: <h1>Welcome</h1>,
@@ -58,7 +59,7 @@ describe("🛠️ BlueScreen Store", () => {
       const { result } = renderHook(() => useBlueScreenStore());
 
       act(() => {
-        result.current.navigateTo(<h1>Protected</h1>, true);
+        result.current.navigateTo(<h1>Protected</h1>, AccessLevel.AUTHENTICATED);
       });
 
       expect(result.current.screenContent).not.toEqual(<h1>Protected</h1>);
@@ -70,7 +71,7 @@ describe("🛠️ BlueScreen Store", () => {
 
       act(() => {
         result.current.setAuth(true);
-        result.current.navigateTo(<h1>Protected</h1>, true);
+        result.current.navigateTo(<h1>Protected</h1>, AccessLevel.AUTHENTICATED);
       });
 
       expect(result.current.screenContent).toEqual(<h1>Protected</h1>);
@@ -80,7 +81,7 @@ describe("🛠️ BlueScreen Store", () => {
       const { result } = renderHook(() => useBlueScreenStore());
 
       act(() => {
-        result.current.navigateTo(<h1>Public Screen</h1>, false);
+        result.current.navigateTo(<h1>Public Screen</h1>, AccessLevel.PUBLIC);
       });
 
       expect(result.current.screenContent).toEqual(<h1>Public Screen</h1>);
@@ -93,10 +94,13 @@ describe("🛠️ BlueScreen Store", () => {
       const mockFunction = jest.fn();
 
       act(() => {
-        result.current.setButtonBinding(2, { label: "Withdraw", action: mockFunction });
+        result.current.setButtonBinding(ATMButtons.MiddleBottomLeft, {
+          label: "Withdraw",
+          action: mockFunction,
+        });
       });
 
-      expect(result.current.buttonBindings[2]).toEqual({
+      expect(result.current.buttonBindings[ATMButtons.MiddleBottomLeft]).toEqual({
         label: "Withdraw",
         action: mockFunction,
       });
@@ -114,8 +118,14 @@ describe("🛠️ BlueScreen Store", () => {
       const { result } = renderHook(() => useBlueScreenStore());
 
       act(() => {
-        result.current.setButtonBinding(2, { label: "Withdraw", action: jest.fn() });
-        result.current.setButtonBinding(3, { label: "Deposit", action: jest.fn() });
+        result.current.setButtonBinding(ATMButtons.MiddleBottomLeft, {
+          label: "Withdraw",
+          action: jest.fn(),
+        });
+        result.current.setButtonBinding(ATMButtons.LowerLeft, {
+          label: "Deposit",
+          action: jest.fn(),
+        });
       });
 
       expect(Object.keys(result.current.buttonBindings).length).toBe(2);

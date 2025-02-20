@@ -21,7 +21,6 @@ export const DynamicLabel = ({
   onAnimationEnd,
   size = FONT_SIZES.sm,
 }: DynamicLabelProps) => {
-  console.log(size);
   const text = typeof children === "string" ? children : "";
   const [displayedText, setDisplayedText] = useState(
     masked ? "*".repeat(text.length) : animated ? "" : text,
@@ -58,6 +57,7 @@ export const DynamicLabel = ({
     if (animated) {
       setDisplayedText(text.slice(0, charIndex));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, charIndex, masked]);
 
   return (

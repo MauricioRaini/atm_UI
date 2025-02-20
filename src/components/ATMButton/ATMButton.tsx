@@ -1,14 +1,22 @@
 import { useEffect } from "react";
 import "./ATMButton.css";
+import { DynamicLabel } from "../DynamicLabel";
 
 export type ATMButtonProps = {
   label?: string;
   isLeftButton?: boolean;
   onClick: () => void;
   keyBinding?: string;
+  hidePath?: boolean;
 };
 
-export const ATMButton = ({ label, isLeftButton = false, onClick, keyBinding }: ATMButtonProps) => {
+export const ATMButton = ({
+  label,
+  isLeftButton = false,
+  onClick,
+  keyBinding,
+  hidePath,
+}: ATMButtonProps) => {
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (keyBinding && event.key.toLowerCase() === keyBinding.toLowerCase()) {
@@ -22,11 +30,11 @@ export const ATMButton = ({ label, isLeftButton = false, onClick, keyBinding }: 
 
   return (
     <div className="atmButtonContainer">
-      {!isLeftButton && <div className="pathToScreen"> </div>}
+      {!hidePath && !isLeftButton && <div className="pathToScreen"> </div>}
       <button className="atmButton" onClick={onClick} data-testid="atm-button">
-        {label}
+        <DynamicLabel>{label}</DynamicLabel>
       </button>
-      {isLeftButton && <div className="pathToScreen"> </div>}
+      {!hidePath && isLeftButton && <div className="pathToScreen"> </div>}
     </div>
   );
 };
