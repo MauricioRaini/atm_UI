@@ -14,7 +14,6 @@ type BlueScreenState = {
   screenContent: React.ReactNode;
   buttonBindings: { [key: number]: ButtonBinding };
   isAuthenticated: boolean;
-  userCardType: CardTypes | null;
   fullScreen: boolean;
   isBlocked: boolean;
   setUserId: (id: string | null) => void;
@@ -33,13 +32,11 @@ export const useBlueScreenStore = create<BlueScreenState>((set, get) => ({
   screenContent: <WelcomeScreen />,
   buttonBindings: {},
   isAuthenticated: false,
-  userCardType: null,
   fullScreen: false,
 
   setScreenContent: (content) => set({ screenContent: content }),
 
-  setAuth: (isAuth, cardType) =>
-    set({ isAuthenticated: isAuth, userCardType: isAuth ? (cardType ?? null) : null }),
+  setAuth: (isAuth) => set({ isAuthenticated: isAuth }),
 
   navigateTo: (content, requiresAuth = AccessLevel.PUBLIC) => {
     if (requiresAuth && !get().isAuthenticated) {

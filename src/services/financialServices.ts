@@ -1,4 +1,4 @@
-import { CardTypes } from "@/types";
+import { CardTypes, User } from "@/types";
 
 type MockUser = {
   id: string;
@@ -59,15 +59,7 @@ export async function validatePIN(pin: string): Promise<{ success: boolean; user
   });
 }
 
-export async function getUser(userId: string): Promise<{
-  id: string;
-  name: string;
-  cardNumber: string;
-  userCardType: CardTypes;
-  balance: number;
-  dailyLimit: number;
-  dailyUsed: number;
-}> {
+export async function getUser(userId: string): Promise<User> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const user = mockDB.find((u) => u.id === userId);
